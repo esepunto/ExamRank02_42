@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 11:43:44 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 12:02:45 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct	s_format
 	int		dot;
 	int		pos_dot;
 	int		asterisk;
-	int		pos_asterisk;
+//	int		pos_asterisk;
 	int		width;
 	int		precision;
 	va_list	arguments;
@@ -657,7 +657,7 @@ static void	flags_init(t_format *carrier)
 	carrier->dot = 0;
 	carrier->pos_dot = 0;
 	carrier->asterisk = 0;
-	carrier->pos_asterisk = 0;
+//	carrier->pos_asterisk = 0;
 	carrier->width = 0;
 	carrier->precision = -1;
 	carrier->code_zmpw = 0;
@@ -691,10 +691,10 @@ static char	ft_look4format(const char *str, t_format *carrier)
 		carrier->where++;
 		carrier->largeflag++;
 		i = carrier->largeflag;
-		while (j <= 8)
+		while (j <= 1)
 		{
 			if (str[i] != PRINTF_VALID_FORMATS[j])
-				if (j++ == 8)
+				if (j++ == 1)
 					carrier->flagstr[i - 1] = str[i];
 			if (str[i] == PRINTF_VALID_FORMATS[j])
 			{
