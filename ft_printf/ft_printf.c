@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 12:02:45 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 12:14:30 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ typedef struct	s_format
 	int		dot;
 	int		pos_dot;
 	int		asterisk;
-//	int		pos_asterisk;
 	int		width;
 	int		precision;
 	va_list	arguments;
@@ -59,7 +58,6 @@ void			jotdown_c(t_format *carrier);
 
 void			jotdown_s(t_format *carrier);
 void			flag_s(char *flag, int c, t_format *carrier);
-void			adjust_flags_s(t_format *carrier);
 void			print_s(char *arg, t_format *carrier);
 void			writespaces_s(t_format *carrier);
 void			asterisks_s(t_format *carrier);
@@ -69,7 +67,6 @@ void			adjust_prec_width(t_format *carrier);
 
 void			jotdown_d(t_format *carrier);
 void			flag(char *flag, int c, t_format *carrier);
-void			adjust_flags(t_format *carrier);
 void			print_d(int arg, t_format *carrier);
 void			writespaces(int c, t_format *carrier);
 void			writezeros(int c, t_format *carrier);
@@ -118,8 +115,6 @@ static void	if_minus_neg_d(int arg, t_format *carrier)
 				writespaces(carrier->width - carrier->precision - 1, carrier);
 		}
 	}
-	else if (carrier->zero == 0)
-		aux_print_spaces(arg, carrier);
 }
 
 static void	if_minus_precision_d(int arg, t_format *carrier)
@@ -175,21 +170,8 @@ static void	if_neg_precision_d(int arg, t_format *carrier)
 
 static void	if_neg_noprecision_d(int arg, t_format *carrier)
 {
-	if (carrier->zero == 1)
-	{
-		if (arg < 0)
-		{
-			arg = arg * (-1);
-			ft_putchar('-', carrier);
-		}
-		writezeros(carrier->width - carrier->large_arg, carrier);
-		print_int_min_pos(arg, carrier);
-	}
-	else
-	{
 		writespaces(carrier->width - carrier->large_arg, carrier);
 		print_int_min_neg(arg, carrier);
-	}
 }
 
 void		if_neg_d(int arg, t_format *carrier)
@@ -210,8 +192,6 @@ void	if_nominus_noneg_d(int arg, t_format *carrier)
 			writespaces(carrier->width - carrier->precision, carrier);
 		writezeros(carrier->precision - carrier->large_arg, carrier);
 	}
-	else if (carrier->zero == 1)
-		writezeros(carrier->width - carrier->large_arg, carrier);
 	else
 		writespaces(carrier->width - carrier->large_arg, carrier);
 	ft_putnbr(arg, carrier);
@@ -261,8 +241,6 @@ void		if_nominus_noneg_x(char *arg, t_format *carrier)
 			writespaces(carrier->width - carrier->precision, carrier);
 		writezeros(carrier->precision - carrier->large_arg, carrier);
 	}
-	else if (carrier->zero == 1)
-		writezeros(carrier->width - carrier->large_arg, carrier);
 	else
 		writespaces(carrier->width - carrier->large_arg, carrier);
 	ft_puthex(arg, carrier);
@@ -275,7 +253,6 @@ void	jotdown_d(t_format *carrier)
 	flag(carrier->flagstr, 0, carrier);
 	arg = va_arg(carrier->arguments, int);
 	carrier->large_arg = ft_strlen(ft_itoa(arg));
-	adjust_flags(carrier);
 	print_d(arg, carrier);
 }
 
@@ -300,7 +277,6 @@ void	jotdown_x(t_format *carrier)
 	aux = va_arg(carrier->arguments, unsigned int);
 	arg = dec_to_hexa(aux);
 	carrier->large_arg = ft_strlen(arg);
-	adjust_flags(carrier);
 	print_x(arg, carrier);
 }
 
@@ -319,7 +295,6 @@ void	jotdown_s(t_format *carrier)
 	char	*arg;
 
 	flag(carrier->flagstr, 0, carrier);
-	adjust_flags_s(carrier);
 	arg = va_arg(carrier->arguments, char *);
 	if (arg == NULL)
 		arg = "(null)";
@@ -406,8 +381,6 @@ void		flag(char *flag, int c, t_format *carrier)
 	{
 		if (flag[c] == '-')
 			carrier->minus = 1;
-		else if (flag[c] == '0')
-			carrier->zero = 1;
 		else if (flag[c] == '.')
 			c = flagdot(c, carrier);
 		else if (flag[c] == '*' && carrier->dot == 0)
@@ -427,20 +400,6 @@ void		flag(char *flag, int c, t_format *carrier)
 		}
 		c++;
 	}
-}
-
-void		adjust_flags(t_format *carrier)
-{
-	if (carrier->zero == 1 && carrier->minus == 1)
-		carrier->zero = 0;
-	if (carrier->zero == 1 && carrier->precision > 0)
-		carrier->zero = 0;
-}
-
-void		adjust_flags_s(t_format *carrier)
-{
-	if (carrier->zero == 1 && carrier->minus == 1)
-		carrier->zero = 0;
 }
 
 void	ft_putchar(int c, t_format *carrier)
@@ -653,11 +612,9 @@ static void	flags_init(t_format *carrier)
 	carrier->convers = ' ';
 	carrier->percent = 0;
 	carrier->minus = 0;
-	carrier->zero = 0;
 	carrier->dot = 0;
 	carrier->pos_dot = 0;
 	carrier->asterisk = 0;
-//	carrier->pos_asterisk = 0;
 	carrier->width = 0;
 	carrier->precision = -1;
 	carrier->code_zmpw = 0;
