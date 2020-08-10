@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 12:36:51 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 12:44:37 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,12 @@ void			writespaces(int c, t_format *carrier);
 void			writezeros(int c, t_format *carrier);
 void			print_int_min_pos(int arg, t_format *carrier);
 void			print_int_min_neg(int arg, t_format *carrier);
-void			aux_print_spaces(int arg, t_format *carrier);
 void			if_nominus_noneg_d(int arg, t_format *carrier);
 void			if_neg_d(int arg, t_format *carrier);
 
 void			jotdown_x(t_format *carrier);
 char			*dec_to_hexa(unsigned long arg);
 void			print_x(char *arg, t_format *carrier);
-void			aux_print_spaces_x(char *arg, t_format *carrier);
 void			if_nominus_noneg_x(char *arg, t_format *carrier);
 
 size_t			ft_strlen(const char *str);
@@ -398,33 +396,6 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-char	*ft_itoa_u(unsigned int n)
-{
-	long	nbr;
-	size_t	len;
-	char	*str;
-
-	nbr = n;
-	len = (nbr > 0) ? 0 : 1;
-	nbr = (nbr > 0) ? nbr : -nbr;
-	while (n)
-		n = len++ ? n / 10 : n / 10;
-	str = (char *)malloc(sizeof(char) * len + 1);
-	if (!str)
-		return (NULL);
-	*(str + len--) = '\0';
-	while (nbr > 0)
-	{
-		*(str + len--) = nbr % 10 + '0';
-		nbr = nbr / 10;
-	}
-	if (len == 0 && str[1] == '\0')
-		*(str + len) = '0';
-	if (len == 0 && str[1] != '\0')
-		*(str + len) = '-';
-	return (str);
-}
-
 void	print_int_min_pos(int arg, t_format *carrier)
 {
 	if (arg != -2147483648)
@@ -451,18 +422,6 @@ void	writespaces(int c, t_format *carrier)
 {
 	while (c-- > 0)
 		ft_putchar(' ', carrier);
-}
-
-void	aux_print_spaces(int arg, t_format *carrier)
-{
-	ft_putnbr(arg, carrier);
-	writespaces(carrier->width - carrier->large_arg, carrier);
-}
-
-void	aux_print_spaces_x(char *arg, t_format *carrier)
-{
-	ft_puthex(arg, carrier);
-	writespaces(carrier->width - carrier->large_arg, carrier);
 }
 
 void	writespaces_s(t_format *carrier)
