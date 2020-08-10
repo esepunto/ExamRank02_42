@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdarg.h>
+#include <limits.h>
 
 int
 	ft_printf(char const *format, ...);
@@ -24,6 +25,8 @@ int
 	F("%d", 42);
 	F("%d", 1);
 	F("%d", 5454);
+	F("%d", INT_MAX);
+	F("%d", INT_MIN);
 	F("%d", (int)2147483647);
 	F("%d", (int)2147483648);
 	F("%d", (int)-2147483648);

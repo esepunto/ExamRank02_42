@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 17:04:03 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 18:04:21 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -345,10 +345,19 @@ static char	*ft_itoa(int n)
 	char	*str;
 
 	nbr = n;
-	len = (nbr > 0) ? 0 : 1;
-	nbr = (nbr > 0) ? nbr : -nbr;
+	if (nbr > 0)
+		len = 0;
+	else
+	{
+		len = 1;
+		nbr = -nbr;
+	}
 	while (n)
-		n = len++ ? n / 10 : n / 10;
+	{
+		if (len++)
+			n = n / 10;
+		else n = n / 10;
+	}
 	str = (char *)malloc(sizeof(char) * len + 1);
 	if (!str)
 		return (NULL);
@@ -358,10 +367,13 @@ static char	*ft_itoa(int n)
 		*(str + len--) = nbr % 10 + '0';
 		nbr = nbr / 10;
 	}
-	if (len == 0 && str[1] == '\0')
-		*(str + len) = '0';
-	if (len == 0 && str[1] != '\0')
-		*(str + len) = '-';
+	if (len == 0)
+	{
+		if (*(str) == '-')
+			*(str) = '-';
+		else
+			*(str) = '0';
+	}
 	return (str);
 }
 
