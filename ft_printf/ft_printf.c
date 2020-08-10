@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 13:00:48 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 16:49:18 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ typedef struct	s_format
 {
 	char	convers;
 	int		dot;
-	int		pos_dot;
 	int		asterisk;
 	int		width;
 	int		precision;
@@ -98,7 +97,7 @@ static void	if_neg_d(int arg, t_format *carrier)
 		if_neg_noprecision_d(arg, carrier);
 }
 
-static void	if_nominus_noneg_d(int arg, t_format *carrier)
+static void	if_nominus_noneg(t_format *carrier)
 {
 	if (carrier->precision >= 0)
 	{
@@ -110,21 +109,17 @@ static void	if_nominus_noneg_d(int arg, t_format *carrier)
 	}
 	else
 		writespaces(carrier->width - carrier->large_arg, carrier);
+}
+
+static void	if_nominus_noneg_d(int arg, t_format *carrier)
+{
+	if_nominus_noneg(carrier);
 	ft_putnbr(arg, carrier);
 }
 
 static void	if_nominus_noneg_x(char *arg, t_format *carrier)
 {
-	if (carrier->precision >= 0)
-	{
-		if (carrier->precision <= carrier->large_arg)
-			writespaces(carrier->width - carrier->large_arg, carrier);
-		else if (carrier->width > carrier->precision)
-			writespaces(carrier->width - carrier->precision, carrier);
-		writezeros(carrier->precision - carrier->large_arg, carrier);
-	}
-	else
-		writespaces(carrier->width - carrier->large_arg, carrier);
+	if_nominus_noneg(carrier);
 	ft_puthex(arg, carrier);
 }
 
@@ -234,7 +229,6 @@ static int	flagdot(int c, t_format *carrier)
 
 	flag = carrier->flagstr;
 	carrier->dot = 1;
-	carrier->pos_dot = c;
 	c++;
 	carrier->precision = 0;
 	if (flag[c] == '-')
@@ -412,7 +406,6 @@ static void	flags_init(t_format *carrier)
 	carrier->large_arg = 0;
 	carrier->convers = ' ';
 	carrier->dot = 0;
-	carrier->pos_dot = 0;
 	carrier->asterisk = 0;
 	carrier->width = 0;
 	carrier->precision = -1;
