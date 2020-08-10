@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 12:44:37 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 13:00:48 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,42 +47,27 @@ typedef struct	s_format
 	char	flagstr[1276];
 }				t_format;
 
-int				ft_printf(const char *str, ...);
-
-void			jotdown_c(t_format *carrier);
-
-void			jotdown_s(t_format *carrier);
-void			flag_s(char *flag, int c, t_format *carrier);
-void			print_s(char *arg, t_format *carrier);
-void			writespaces_s(t_format *carrier);
-void			asterisks_s(t_format *carrier);
-void			if_writezeros_s(t_format *carrier);
-void			if_writespaces_s(t_format *carrier);
-void			adjust_prec_width(t_format *carrier);
-
-void			jotdown_d(t_format *carrier);
-void			flag(char *flag, int c, t_format *carrier);
-void			print_d(int arg, t_format *carrier);
-void			writespaces(int c, t_format *carrier);
-void			writezeros(int c, t_format *carrier);
-void			print_int_min_pos(int arg, t_format *carrier);
-void			print_int_min_neg(int arg, t_format *carrier);
-void			if_nominus_noneg_d(int arg, t_format *carrier);
-void			if_neg_d(int arg, t_format *carrier);
-
-void			jotdown_x(t_format *carrier);
-char			*dec_to_hexa(unsigned long arg);
-void			print_x(char *arg, t_format *carrier);
-void			if_nominus_noneg_x(char *arg, t_format *carrier);
-
-size_t			ft_strlen(const char *str);
-int				ft_isdigit(int c);
-char			*ft_itoa(int n);
-
-void			ft_putchar(int c, t_format *carrier);
-void			ft_putnbr(int nb, t_format *carrier);
-void			ft_putstr(char *str, t_format *carrier);
-void			ft_puthex(char *str, t_format *carrier);
+static void			print_s(char *arg, t_format *carrier);
+static void			jotdown_d(t_format *carrier);
+static void			flag(char *flag, int c, t_format *carrier);
+static void			print_d(int arg, t_format *carrier);
+static void			writespaces(int c, t_format *carrier);
+static void			writezeros(int c, t_format *carrier);
+static void			print_int_min_pos(int arg, t_format *carrier);
+static void			print_int_min_neg(int arg, t_format *carrier);
+static void			if_nominus_noneg_d(int arg, t_format *carrier);
+static void			if_neg_d(int arg, t_format *carrier);
+static void			jotdown_x(t_format *carrier);
+static char			*dec_to_hexa(unsigned long arg);
+static void			print_x(char *arg, t_format *carrier);
+static void			if_nominus_noneg_x(char *arg, t_format *carrier);
+static size_t			ft_strlen(const char *str);
+static int				ft_isdigit(int c);
+static char			*ft_itoa(int n);
+static void			ft_putchar(int c, t_format *carrier);
+static void			ft_putnbr(int nb, t_format *carrier);
+static void			ft_putstr(char *str, t_format *carrier);
+static void			ft_puthex(char *str, t_format *carrier);
 
 static void	if_neg_precision_d(int arg, t_format *carrier)
 {
@@ -105,7 +90,7 @@ static void	if_neg_noprecision_d(int arg, t_format *carrier)
 		print_int_min_neg(arg, carrier);
 }
 
-void		if_neg_d(int arg, t_format *carrier)
+static void	if_neg_d(int arg, t_format *carrier)
 {
 	if (carrier->precision >= 0)
 		if_neg_precision_d(arg, carrier);
@@ -113,7 +98,7 @@ void		if_neg_d(int arg, t_format *carrier)
 		if_neg_noprecision_d(arg, carrier);
 }
 
-void	if_nominus_noneg_d(int arg, t_format *carrier)
+static void	if_nominus_noneg_d(int arg, t_format *carrier)
 {
 	if (carrier->precision >= 0)
 	{
@@ -128,7 +113,7 @@ void	if_nominus_noneg_d(int arg, t_format *carrier)
 	ft_putnbr(arg, carrier);
 }
 
-void		if_nominus_noneg_x(char *arg, t_format *carrier)
+static void	if_nominus_noneg_x(char *arg, t_format *carrier)
 {
 	if (carrier->precision >= 0)
 	{
@@ -143,7 +128,7 @@ void		if_nominus_noneg_x(char *arg, t_format *carrier)
 	ft_puthex(arg, carrier);
 }
 
-void	jotdown_d(t_format *carrier)
+static void	jotdown_d(t_format *carrier)
 {
 	int		arg;
 
@@ -153,7 +138,7 @@ void	jotdown_d(t_format *carrier)
 	print_d(arg, carrier);
 }
 
-void	print_d(int arg, t_format *carrier)
+static void	print_d(int arg, t_format *carrier)
 {
 	if (carrier->precision == 0 && arg == 0)
 		writespaces(carrier->width, carrier);
@@ -163,7 +148,7 @@ void	print_d(int arg, t_format *carrier)
 		if_nominus_noneg_d(arg, carrier);
 }
 
-void	jotdown_x(t_format *carrier)
+static void	jotdown_x(t_format *carrier)
 {
 	char			*arg;
 	unsigned long	aux;
@@ -175,7 +160,7 @@ void	jotdown_x(t_format *carrier)
 	print_x(arg, carrier);
 }
 
-void	print_x(char *arg, t_format *carrier)
+static void	print_x(char *arg, t_format *carrier)
 {
 	if (carrier->precision == 0 && arg[0] == '0' && arg[1] == '\0')
 		writespaces(carrier->width, carrier);
@@ -183,7 +168,7 @@ void	print_x(char *arg, t_format *carrier)
 		if_nominus_noneg_x(arg, carrier);
 }
 
-void	jotdown_s(t_format *carrier)
+static void	jotdown_s(t_format *carrier)
 {
 	char	*arg;
 
@@ -195,7 +180,7 @@ void	jotdown_s(t_format *carrier)
 	print_s(arg, carrier);
 }
 
-void	print_s(char *arg, t_format *carrier)
+static void	print_s(char *arg, t_format *carrier)
 {
 	if (carrier->precision >= carrier->large_arg || carrier->precision < 0)
 		writespaces(carrier->width - carrier->large_arg, carrier);
@@ -223,7 +208,7 @@ static char	*invert_str(char *str)
 	return (str);
 }
 
-char		*dec_to_hexa(unsigned long arg)
+static char	*dec_to_hexa(unsigned long arg)
 {
 	static char		result[20];
 	int				i;
@@ -265,7 +250,7 @@ static int	flagdot(int c, t_format *carrier)
 	return (c);
 }
 
-void		flag(char *flag, int c, t_format *carrier)
+static void	flag(char *flag, int c, t_format *carrier)
 {
 	while (flag[c])
 	{
@@ -287,13 +272,13 @@ void		flag(char *flag, int c, t_format *carrier)
 	}
 }
 
-void	ft_putchar(int c, t_format *carrier)
+static void	ft_putchar(int c, t_format *carrier)
 {
 	write(1, &c, 1);
 	carrier->how_many++;
 }
 
-void	ft_putnbr(int nb, t_format *carrier)
+static void	ft_putnbr(int nb, t_format *carrier)
 {
 	unsigned int	copy_nb;
 
@@ -308,17 +293,7 @@ void	ft_putnbr(int nb, t_format *carrier)
 	ft_putchar(copy_nb % 10 + '0', carrier);
 }
 
-void	ft_putnbr_u(unsigned int nb, t_format *carrier)
-{
-	unsigned int	copy_nb;
-
-	copy_nb = nb;
-	if (nb > 9)
-		ft_putnbr_u(copy_nb / 10, carrier);
-	ft_putchar(copy_nb % 10 + '0', carrier);
-}
-
-void	ft_putstr(char *str, t_format *carrier)
+static void	ft_putstr(char *str, t_format *carrier)
 {
 	int		c;
 
@@ -343,7 +318,7 @@ void	ft_putstr(char *str, t_format *carrier)
 	}
 }
 
-void	ft_puthex(char *str, t_format *carrier)
+static void	ft_puthex(char *str, t_format *carrier)
 {
 	if (!str)
 		return ;
@@ -354,12 +329,12 @@ void	ft_puthex(char *str, t_format *carrier)
 	}
 }
 
-int		ft_isdigit(int c)
+static int	ft_isdigit(int c)
 {
 	return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
 }
 
-size_t	ft_strlen(const char *str)
+static size_t	ft_strlen(const char *str)
 {
 	size_t	counter;
 
@@ -369,7 +344,7 @@ size_t	ft_strlen(const char *str)
 	return (counter);
 }
 
-char	*ft_itoa(int n)
+static char	*ft_itoa(int n)
 {
 	long	nbr;
 	size_t	len;
@@ -396,7 +371,7 @@ char	*ft_itoa(int n)
 	return (str);
 }
 
-void	print_int_min_pos(int arg, t_format *carrier)
+static void	print_int_min_pos(int arg, t_format *carrier)
 {
 	if (arg != -2147483648)
 		ft_putnbr(arg, carrier);
@@ -407,7 +382,7 @@ void	print_int_min_pos(int arg, t_format *carrier)
 	}
 }
 
-void	print_int_min_neg(int arg, t_format *carrier)
+static void	print_int_min_neg(int arg, t_format *carrier)
 {
 	if (arg != -2147483648)
 		ft_putnbr(arg, carrier);
@@ -418,37 +393,17 @@ void	print_int_min_neg(int arg, t_format *carrier)
 	}
 }
 
-void	writespaces(int c, t_format *carrier)
+static void	writespaces(int c, t_format *carrier)
 {
 	while (c-- > 0)
 		ft_putchar(' ', carrier);
 }
 
-void	writespaces_s(t_format *carrier)
-{
-	int c;
-
-	if (carrier->arg_null == 'y' && carrier->width > carrier->large_arg
-						&& carrier->dot == 0)
-		c = carrier->width - carrier->large_arg;
-	else if (carrier->precision >= 0 && carrier->dot == 1
-						&& carrier->precision < carrier->large_arg)
-		c = carrier->width - carrier->precision;
-	else if (carrier->arg_null == 'y' && carrier->large_arg > carrier->width
-						&& carrier->dot == 0)
-		c = 0;
-	else
-		c = carrier->width - carrier->large_arg;
-	while (c-- > 0)
-		ft_putchar(' ', carrier);
-}
-
-void	writezeros(int c, t_format *carrier)
+static void	writezeros(int c, t_format *carrier)
 {
 	while (c-- > 0)
 		ft_putchar('0', carrier);
 }
-
 
 static void	flags_init(t_format *carrier)
 {
