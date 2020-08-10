@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 18:04:21 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 18:38:27 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ static void			ft_putnbr(int nb, t_format *carrier);
 static void			ft_putstr(char *str, t_format *carrier);
 static void			ft_puthex(char *str, t_format *carrier);
 
-
 static void	if_neg_precision_d(int arg, t_format *carrier)
 {
 	if (carrier->precision < carrier->large_arg)
@@ -83,18 +82,15 @@ static void	if_neg_precision_d(int arg, t_format *carrier)
 	print_int_min_pos(arg, carrier);
 }
 
-static void	if_neg_noprecision_d(int arg, t_format *carrier)
-{
-		writespaces(carrier->width - carrier->large_arg, carrier);
-		print_int_min_neg(arg, carrier);
-}
-
 static void	if_neg_d(int arg, t_format *carrier)
 {
 	if (carrier->precision >= 0)
 		if_neg_precision_d(arg, carrier);
 	else
-		if_neg_noprecision_d(arg, carrier);
+	{
+		writespaces(carrier->width - carrier->large_arg, carrier);
+		print_int_min_neg(arg, carrier);
+	}
 }
 
 static void	if_nominus_noneg(t_format *carrier)
@@ -341,17 +337,14 @@ static size_t	ft_strlen(const char *str)
 static char	*ft_itoa(int n)
 {
 	long	nbr;
-	size_t	len;
+	size_t	len = 1;
 	char	*str;
 
 	nbr = n;
 	if (nbr > 0)
 		len = 0;
 	else
-	{
-		len = 1;
 		nbr = -nbr;
-	}
 	while (n)
 	{
 		if (len++)
