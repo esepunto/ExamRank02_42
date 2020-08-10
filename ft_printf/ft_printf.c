@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 12:14:30 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 12:27:46 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,6 @@ typedef struct	s_format
 {
 	char	convers;
 	int		percent;
-	int		minus;
-	int		zero;
 	int		dot;
 	int		pos_dot;
 	int		asterisk;
@@ -46,7 +44,6 @@ typedef struct	s_format
 	int		large_arg;
 	char	arg_null;
 	int		code_zmpw;
-	int		where;
 	int		how_many;
 	int		largeflag;
 	char	flagstr[1276];
@@ -260,8 +257,6 @@ void	print_d(int arg, t_format *carrier)
 {
 	if (carrier->precision == 0 && arg == 0)
 		writespaces(carrier->width, carrier);
-	else if (carrier->minus == 1)
-		if_minus_d(arg, carrier);
 	else if (arg < 0)
 		if_neg_d(arg, carrier);
 	else
@@ -284,8 +279,6 @@ void	print_x(char *arg, t_format *carrier)
 {
 	if (carrier->precision == 0 && arg[0] == '0' && arg[1] == '\0')
 		writespaces(carrier->width, carrier);
-	else if (carrier->minus == 1)
-		if_minus_x(arg, carrier);
 	else
 		if_nominus_noneg_x(arg, carrier);
 }
@@ -304,14 +297,11 @@ void	jotdown_s(t_format *carrier)
 
 void	print_s(char *arg, t_format *carrier)
 {
-	if (carrier->minus == 1)
-		ft_putstr(arg, carrier);
 	if (carrier->precision >= carrier->large_arg || carrier->precision < 0)
 		writespaces(carrier->width - carrier->large_arg, carrier);
 	else if (carrier->precision >= 0)
 		writespaces(carrier->width - carrier->precision, carrier);
-	if (carrier->minus == 0)
-		ft_putstr(arg, carrier);
+	ft_putstr(arg, carrier);
 }
 
 static char	*invert_str(char *str)
@@ -379,18 +369,13 @@ void		flag(char *flag, int c, t_format *carrier)
 {
 	while (flag[c])
 	{
-		if (flag[c] == '-')
-			carrier->minus = 1;
-		else if (flag[c] == '.')
+		if (flag[c] == '.')
 			c = flagdot(c, carrier);
 		else if (flag[c] == '*' && carrier->dot == 0)
 		{
 			carrier->width = va_arg(carrier->arguments, int);
 			if (carrier->width < 0)
-			{
 				carrier->width = carrier->width * -1;
-				carrier->minus = 1;
-			}
 		}
 		else if (ft_isdigit(flag[c]) && carrier->dot == 0)
 		{
@@ -611,7 +596,6 @@ static void	flags_init(t_format *carrier)
 	carrier->large_arg = 0;
 	carrier->convers = ' ';
 	carrier->percent = 0;
-	carrier->minus = 0;
 	carrier->dot = 0;
 	carrier->pos_dot = 0;
 	carrier->asterisk = 0;
@@ -623,7 +607,6 @@ static void	flags_init(t_format *carrier)
 
 static void	carrier_init(t_format *carrier)
 {
-	carrier->where = 0;
 	carrier->how_many = 0;
 	flags_init(carrier);
 }
@@ -645,7 +628,6 @@ static char	ft_look4format(const char *str, t_format *carrier)
 	while (*str)
 	{
 		j = 0;
-		carrier->where++;
 		carrier->largeflag++;
 		i = carrier->largeflag;
 		while (j <= 1)
@@ -686,7 +668,6 @@ int			ft_printf(const char *str, ...)
 	carrier_init(&carrier);
 	while (*str != '\0')
 	{
-		carrier.where++;
 		if (*str == '%')
 			is_percent(&str, &carrier);
 		else
