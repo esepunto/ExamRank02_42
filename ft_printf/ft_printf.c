@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 16:49:18 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 17:04:03 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 **		times.
 **	3) Works with convers with different states, even by similar ways.
 **	4) Any conversion uses a "different" ft_ (function):
-**		jotdown_dec, jotdown_hexa and jotdown_string
+**		jotdown_dec (%d), jotdown_hexa (%x) and jotdown_string (%s)
 */
 
 #include <unistd.h>
@@ -35,16 +35,15 @@ typedef struct	s_format
 {
 	char	convers;
 	int		dot;
-	int		asterisk;
 	int		width;
 	int		precision;
 	va_list	arguments;
 	int		large_arg;
-	char	arg_null;
 	int		how_many;
 	int		largeflag;
 	char	flagstr[1276];
 }				t_format;
+
 
 static void			print_s(char *arg, t_format *carrier);
 static void			jotdown_d(t_format *carrier);
@@ -60,13 +59,14 @@ static void			jotdown_x(t_format *carrier);
 static char			*dec_to_hexa(unsigned long arg);
 static void			print_x(char *arg, t_format *carrier);
 static void			if_nominus_noneg_x(char *arg, t_format *carrier);
-static size_t			ft_strlen(const char *str);
-static int				ft_isdigit(int c);
+static size_t		ft_strlen(const char *str);
+static int			ft_isdigit(int c);
 static char			*ft_itoa(int n);
 static void			ft_putchar(int c, t_format *carrier);
 static void			ft_putnbr(int nb, t_format *carrier);
 static void			ft_putstr(char *str, t_format *carrier);
 static void			ft_puthex(char *str, t_format *carrier);
+
 
 static void	if_neg_precision_d(int arg, t_format *carrier)
 {
@@ -406,10 +406,8 @@ static void	flags_init(t_format *carrier)
 	carrier->large_arg = 0;
 	carrier->convers = ' ';
 	carrier->dot = 0;
-	carrier->asterisk = 0;
 	carrier->width = 0;
 	carrier->precision = -1;
-	carrier->arg_null = ' ';
 }
 
 static void	carrier_init(t_format *carrier)
