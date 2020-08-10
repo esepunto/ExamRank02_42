@@ -44,224 +44,6 @@ typedef struct	s_format
 	char	flagstr[1276];
 }				t_format;
 
-
-static void			print_s(char *arg, t_format *carrier);
-static void			jotdown_d(t_format *carrier);
-static void			flag(char *flag, int c, t_format *carrier);
-static void			print_d(int arg, t_format *carrier);
-static void			writespaces(int c, t_format *carrier);
-static void			writezeros(int c, t_format *carrier);
-static void			print_int_min_pos(int arg, t_format *carrier);
-static void			print_int_min_neg(int arg, t_format *carrier);
-static void			if_nominus_noneg_d(int arg, t_format *carrier);
-static void			if_neg_d(int arg, t_format *carrier);
-static void			jotdown_x(t_format *carrier);
-static char			*dec_to_hexa(unsigned long arg);
-static void			print_x(char *arg, t_format *carrier);
-static void			if_nominus_noneg_x(char *arg, t_format *carrier);
-static size_t		ft_strlen(const char *str);
-static int			ft_isdigit(int c);
-static char			*ft_itoa(int n);
-static void			ft_putchar(int c, t_format *carrier);
-static void			ft_putnbr(int nb, t_format *carrier);
-static void			ft_putstr(char *str, t_format *carrier);
-static void			ft_puthex(char *str, t_format *carrier);
-
-static void	if_neg_precision_d(int arg, t_format *carrier)
-{
-	if (carrier->precision < carrier->large_arg)
-		writespaces(carrier->width - carrier->large_arg, carrier);
-	else if (carrier->width > carrier->precision)
-		writespaces((carrier->width - carrier->precision) - 1, carrier);
-	if (arg < 0)
-	{
-		arg = arg * (-1);
-		ft_putchar('-', carrier);
-	}
-	writezeros(carrier->precision - carrier->large_arg + 1, carrier);
-	print_int_min_pos(arg, carrier);
-}
-
-static void	if_neg_d(int arg, t_format *carrier)
-{
-	if (carrier->precision >= 0)
-		if_neg_precision_d(arg, carrier);
-	else
-	{
-		writespaces(carrier->width - carrier->large_arg, carrier);
-		print_int_min_neg(arg, carrier);
-	}
-}
-
-static void	if_nominus_noneg(t_format *carrier)
-{
-	if (carrier->precision >= 0)
-	{
-		if (carrier->precision <= carrier->large_arg)
-			writespaces(carrier->width - carrier->large_arg, carrier);
-		else if (carrier->width > carrier->precision)
-			writespaces(carrier->width - carrier->precision, carrier);
-		writezeros(carrier->precision - carrier->large_arg, carrier);
-	}
-	else
-		writespaces(carrier->width - carrier->large_arg, carrier);
-}
-
-static void	if_nominus_noneg_d(int arg, t_format *carrier)
-{
-	if_nominus_noneg(carrier);
-	ft_putnbr(arg, carrier);
-}
-
-static void	if_nominus_noneg_x(char *arg, t_format *carrier)
-{
-	if_nominus_noneg(carrier);
-	ft_puthex(arg, carrier);
-}
-
-static void	jotdown_d(t_format *carrier)
-{
-	int		arg;
-
-	flag(carrier->flagstr, 0, carrier);
-	arg = va_arg(carrier->arguments, int);
-	carrier->large_arg = ft_strlen(ft_itoa(arg));
-	print_d(arg, carrier);
-}
-
-static void	print_d(int arg, t_format *carrier)
-{
-	if (carrier->precision == 0 && arg == 0)
-		writespaces(carrier->width, carrier);
-	else if (arg < 0)
-		if_neg_d(arg, carrier);
-	else
-		if_nominus_noneg_d(arg, carrier);
-}
-
-static void	jotdown_x(t_format *carrier)
-{
-	char			*arg;
-	unsigned long	aux;
-
-	flag(carrier->flagstr, 0, carrier);
-	aux = va_arg(carrier->arguments, unsigned int);
-	arg = dec_to_hexa(aux);
-	carrier->large_arg = ft_strlen(arg);
-	print_x(arg, carrier);
-}
-
-static void	print_x(char *arg, t_format *carrier)
-{
-	if (carrier->precision == 0 && arg[0] == '0' && arg[1] == '\0')
-		writespaces(carrier->width, carrier);
-	else
-		if_nominus_noneg_x(arg, carrier);
-}
-
-static void	jotdown_s(t_format *carrier)
-{
-	char	*arg;
-
-	flag(carrier->flagstr, 0, carrier);
-	arg = va_arg(carrier->arguments, char *);
-	if (arg == NULL)
-		arg = "(null)";
-	carrier->large_arg = ft_strlen(arg);
-	print_s(arg, carrier);
-}
-
-static void	print_s(char *arg, t_format *carrier)
-{
-	if (carrier->precision >= carrier->large_arg || carrier->precision < 0)
-		writespaces(carrier->width - carrier->large_arg, carrier);
-	else if (carrier->precision >= 0)
-		writespaces(carrier->width - carrier->precision, carrier);
-	ft_putstr(arg, carrier);
-}
-
-static char	*invert_str(char *str)
-{
-	int		i;
-	int		j;
-	char	tmp;
-
-	i = 0;
-	j = ft_strlen(str) - 1;
-	while (i <= j)
-	{
-		tmp = str[i];
-		str[i] = str[j];
-		str[j] = tmp;
-		i++;
-		j--;
-	}
-	return (str);
-}
-
-static char	*dec_to_hexa(unsigned long arg)
-{
-	static char		result[20];
-	int				i;
-	unsigned long	temp;
-
-	i = 0;
-	if (arg == 0)
-		return ("0\0");
-	while (arg != 0)
-	{
-		temp = arg % 16;
-		result[i] = HEXALOWER[temp];
-		i++;
-		arg = arg / 16;
-	}
-	result[i] = '\0';
-	return (invert_str(result));
-}
-
-static int	flagdot(int c, t_format *carrier)
-{
-	char *flag;
-
-	flag = carrier->flagstr;
-	carrier->dot = 1;
-	c++;
-	carrier->precision = 0;
-	if (flag[c] == '-')
-		carrier->precision = -1;
-	if (flag[c] == '*')
-		carrier->precision = va_arg(carrier->arguments, int);
-	else if (ft_isdigit(flag[c]))
-	{
-		while (ft_isdigit(flag[c]))
-			carrier->precision = (carrier->precision * 10) + (flag[c++] - 48);
-	}
-	c--;
-	return (c);
-}
-
-static void	flag(char *flag, int c, t_format *carrier)
-{
-	while (flag[c])
-	{
-		if (flag[c] == '.')
-			c = flagdot(c, carrier);
-		else if (flag[c] == '*' && carrier->dot == 0)
-		{
-			carrier->width = va_arg(carrier->arguments, int);
-			if (carrier->width < 0)
-				carrier->width = carrier->width * -1;
-		}
-		else if (ft_isdigit(flag[c]) && carrier->dot == 0)
-		{
-			while (ft_isdigit(flag[c]))
-				carrier->width = (carrier->width * 10) + (flag[c++] - 48);
-			c--;
-		}
-		c++;
-	}
-}
-
 static void	ft_putchar(int c, t_format *carrier)
 {
 	write(1, &c, 1);
@@ -402,6 +184,201 @@ static void	writezeros(int c, t_format *carrier)
 {
 	while (c-- > 0)
 		ft_putchar('0', carrier);
+}
+
+static void	if_neg_precision_d(int arg, t_format *carrier)
+{
+	if (carrier->precision < carrier->large_arg)
+		writespaces(carrier->width - carrier->large_arg, carrier);
+	else if (carrier->width > carrier->precision)
+		writespaces((carrier->width - carrier->precision) - 1, carrier);
+	if (arg < 0)
+	{
+		arg = arg * (-1);
+		ft_putchar('-', carrier);
+	}
+	writezeros(carrier->precision - carrier->large_arg + 1, carrier);
+	print_int_min_pos(arg, carrier);
+}
+
+static void	if_neg_d(int arg, t_format *carrier)
+{
+	if (carrier->precision >= 0)
+		if_neg_precision_d(arg, carrier);
+	else
+	{
+		writespaces(carrier->width - carrier->large_arg, carrier);
+		print_int_min_neg(arg, carrier);
+	}
+}
+
+static void	if_nominus_noneg(t_format *carrier)
+{
+	if (carrier->precision >= 0)
+	{
+		if (carrier->precision <= carrier->large_arg)
+			writespaces(carrier->width - carrier->large_arg, carrier);
+		else if (carrier->width > carrier->precision)
+			writespaces(carrier->width - carrier->precision, carrier);
+		writezeros(carrier->precision - carrier->large_arg, carrier);
+	}
+	else
+		writespaces(carrier->width - carrier->large_arg, carrier);
+}
+
+static void	if_nominus_noneg_d(int arg, t_format *carrier)
+{
+	if_nominus_noneg(carrier);
+	ft_putnbr(arg, carrier);
+}
+
+static void	if_nominus_noneg_x(char *arg, t_format *carrier)
+{
+	if_nominus_noneg(carrier);
+	ft_puthex(arg, carrier);
+}
+
+static void	print_d(int arg, t_format *carrier)
+{
+	if (carrier->precision == 0 && arg == 0)
+		writespaces(carrier->width, carrier);
+	else if (arg < 0)
+		if_neg_d(arg, carrier);
+	else
+		if_nominus_noneg_d(arg, carrier);
+}
+
+static void	print_x(char *arg, t_format *carrier)
+{
+	if (carrier->precision == 0 && arg[0] == '0' && arg[1] == '\0')
+		writespaces(carrier->width, carrier);
+	else
+		if_nominus_noneg_x(arg, carrier);
+}
+
+static void	print_s(char *arg, t_format *carrier)
+{
+	if (carrier->precision >= carrier->large_arg || carrier->precision < 0)
+		writespaces(carrier->width - carrier->large_arg, carrier);
+	else if (carrier->precision >= 0)
+		writespaces(carrier->width - carrier->precision, carrier);
+	ft_putstr(arg, carrier);
+}
+
+static int	flagdot(int c, t_format *carrier)
+{
+	char *flag;
+
+	flag = carrier->flagstr;
+	carrier->dot = 1;
+	c++;
+	carrier->precision = 0;
+	if (flag[c] == '-')
+		carrier->precision = -1;
+	if (flag[c] == '*')
+		carrier->precision = va_arg(carrier->arguments, int);
+	else if (ft_isdigit(flag[c]))
+	{
+		while (ft_isdigit(flag[c]))
+			carrier->precision = (carrier->precision * 10) + (flag[c++] - 48);
+	}
+	c--;
+	return (c);
+}
+
+static void	flag(char *flag, int c, t_format *carrier)
+{
+	while (flag[c])
+	{
+		if (flag[c] == '.')
+			c = flagdot(c, carrier);
+		else if (flag[c] == '*' && carrier->dot == 0)
+		{
+			carrier->width = va_arg(carrier->arguments, int);
+			if (carrier->width < 0)
+				carrier->width = carrier->width * -1;
+		}
+		else if (ft_isdigit(flag[c]) && carrier->dot == 0)
+		{
+			while (ft_isdigit(flag[c]))
+				carrier->width = (carrier->width * 10) + (flag[c++] - 48);
+			c--;
+		}
+		c++;
+	}
+}
+
+static char	*invert_str(char *str)
+{
+	int		i;
+	int		j;
+	char	tmp;
+
+	i = 0;
+	j = ft_strlen(str) - 1;
+	while (i <= j)
+	{
+		tmp = str[i];
+		str[i] = str[j];
+		str[j] = tmp;
+		i++;
+		j--;
+	}
+	return (str);
+}
+
+static char	*dec_to_hexa(unsigned long arg)
+{
+	static char		result[20];
+	int				i;
+	unsigned long	temp;
+
+	i = 0;
+	if (arg == 0)
+		return ("0\0");
+	while (arg != 0)
+	{
+		temp = arg % 16;
+		result[i] = HEXALOWER[temp];
+		i++;
+		arg = arg / 16;
+	}
+	result[i] = '\0';
+	return (invert_str(result));
+}
+
+static void	jotdown_d(t_format *carrier)
+{
+	int		arg;
+
+	flag(carrier->flagstr, 0, carrier);
+	arg = va_arg(carrier->arguments, int);
+	carrier->large_arg = ft_strlen(ft_itoa(arg));
+	print_d(arg, carrier);
+}
+
+static void	jotdown_x(t_format *carrier)
+{
+	char			*arg;
+	unsigned long	aux;
+
+	flag(carrier->flagstr, 0, carrier);
+	aux = va_arg(carrier->arguments, unsigned int);
+	arg = dec_to_hexa(aux);
+	carrier->large_arg = ft_strlen(arg);
+	print_x(arg, carrier);
+}
+
+static void	jotdown_s(t_format *carrier)
+{
+	char	*arg;
+
+	flag(carrier->flagstr, 0, carrier);
+	arg = va_arg(carrier->arguments, char *);
+	if (arg == NULL)
+		arg = "(null)";
+	carrier->large_arg = ft_strlen(arg);
+	print_s(arg, carrier);
 }
 
 static void	flags_init(t_format *carrier)
