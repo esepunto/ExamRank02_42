@@ -6,13 +6,13 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 18:38:27 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/10 19:13:45 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*
 **	This program emulates the behaviour of the "printf" function, only
-**	with formats sdx and flags .
+**	with formats sdx and flag dot '.' (minimun witdth field and precision)
 **
 **	How does it?
 **	1) There's only one function to print: ft_putchar (with 'write')
@@ -376,6 +376,9 @@ static void	print_int_min_pos(int arg, t_format *carrier)
 		ft_putnbr(arg, carrier);
 	else
 	{
+//		if (carrier->precision < carrier->large_arg && carrier->precision != 0)
+//			carrier->precision = -1;
+//		ft_putstr("2147483648", carrier);
 		write(1, "2147483648", 10);
 		carrier->how_many = carrier->how_many + 10;
 	}
@@ -386,10 +389,7 @@ static void	print_int_min_neg(int arg, t_format *carrier)
 	if (arg != -2147483648)
 		ft_putnbr(arg, carrier);
 	else
-	{
-		write(1, "-2147483648", 11);
-		carrier->how_many = carrier->how_many + 11;
-	}
+		ft_putstr("-2147483648",carrier);
 }
 
 static void	writespaces(int c, t_format *carrier)
