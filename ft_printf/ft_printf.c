@@ -291,7 +291,6 @@ static void	s_init(t_format *s)
 **	The program always check the flags in this new string: it never
 **	checks on the original string.
 */
-
 static char	ft_look4conversion(const char *str, t_format *s)
 {
 	int		i;
@@ -302,16 +301,16 @@ static char	ft_look4conversion(const char *str, t_format *s)
 		j = 0;
 		s->largeflag++;
 		i = s->largeflag;
-		while (j <= 1)
+		while (j <= 2)
 		{
 			if (str[i] != PRINTF_VALID_FORMATS[j])
-				if (j++ == 1)
-					s->flagstr[i - 1] = str[i];
-			if (str[i] == PRINTF_VALID_FORMATS[j])
+				s->flagstr[i - 1] = str[i];
+			else
 			{
 				s->flagstr[i - 1] = '\0';
 				return (str[i]);
 			}
+			j++;
 		}
 	}
 	return (str[i]);
