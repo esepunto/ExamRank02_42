@@ -67,30 +67,19 @@ static void	ft_putstr(char *str, t_format *s)
 	int		c;
 
 	c = s->prec;
-	if (!str)
-		return ;
-	
 	if (c < 0)
 		c = s->len;
 	if (c != 0)
 	{
 		while (*str && c-- > 0)
-		{
-			ft_putchar(*str, s);
-			str++;
-		}
+			ft_putchar(*(str++), s);
 	}
 }
 
 static void	ft_puthex(char *str, t_format *s)
 {
-	if (!str)
-		return ;
 	while (*str)
-	{
-		ft_putchar(*str, s);
-		str++;
-	}
+		ft_putchar(*(str++), s);
 }
 
 static int	ft_isdigit(int c)
