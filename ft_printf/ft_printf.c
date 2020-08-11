@@ -32,7 +32,6 @@
 typedef struct	s_format
 {
 	char	convers;
-	int		dot;
 	int		mfw;
 	int		prec;
 	va_list	args;
@@ -255,46 +254,22 @@ static void	print_s(char *arg, t_format *s)
 	ft_putstr(arg, s);
 }
 
-static int	flagdot(int c, t_format *s)
-{
-	char *flag;
-
-	flag = s->flagstr;
-	s->dot = 1;
-	c++;
-	s->prec = 0;
-	if (flag[c] == '-')
-		s->prec = -1;
-	if (flag[c] == '*')
-		s->prec = va_arg(s->args, int);
-	else if (ft_isdigit(flag[c]))
-	{
-		while (ft_isdigit(flag[c]))
-			s->prec = (s->prec * 10) + (flag[c++] - 48);
-	}
-	c--;
-	return (c);
-}
-
 static void	flag(char *flag, int c, t_format *s)
 {
-	while (flag[c])
+	if (ft_isdigit(flag[c]))
 	{
-		if (flag[c] == '.')
-			c = flagdot(c, s);
-		else if (flag[c] == '*' && s->dot == 0)
-		{
-			s->mfw = va_arg(s->args, int);
-			if (s->mfw < 0)
-				s->mfw = s->mfw * -1;
-		}
-		else if (ft_isdigit(flag[c]) && s->dot == 0)
+		while (ft_isdigit(flag[c]))
+			s->mfw = (s->mfw * 10) + (flag[c++] - 48);
+	}
+	if (flag[c] == '.')
+	{
+		c++;
+		s->prec = 0;
+		if (ft_isdigit(flag[c]))
 		{
 			while (ft_isdigit(flag[c]))
-				s->mfw = (s->mfw * 10) + (flag[c++] - 48);
-			c--;
+				s->prec = (s->prec * 10) + (flag[c++] - 48);
 		}
-		c++;
 	}
 }
 
@@ -376,7 +351,6 @@ static void	flags_init(t_format *s)
 	s->largeflag = 0;
 	s->len = 0;
 	s->convers = ' ';
-	s->dot = 0;
 	s->mfw = 0;
 	s->prec = -1;
 }
