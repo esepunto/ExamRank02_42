@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/11 05:09:14 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/11 20:59:29 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <stdarg.h>
 
-#define PRINTF_VALID_FORMATS	"sdx"
+#define FT_PRINTF_VALID_FORMATS	"sdx"
 
 typedef struct	s_format
 {
@@ -37,6 +37,7 @@ typedef struct	s_format
 	va_list	args;
 	int		len;
 	int		how_many;
+	char	arg_null;
 	int		largeflag;
 	char	flagstr[1276];
 }				t_format;
@@ -111,11 +112,13 @@ static void	zeros(int c, t_format *s)
 
 static void	fill(t_format *s)
 {
-	if (s->prec >= 0)
+	if (s->prec == 0 && s->arg_null == 'y')
+		spaces(s->mfw, s);
+	else if (s->prec >= 0)
 	{
 		if (s->prec <= s->len)
 			spaces(s->mfw - s->len, s);
-		else if (s->mfw > s->prec)
+		else
 			spaces(s->mfw - s->prec, s);
 		zeros(s->prec - s->len, s);
 	}
@@ -125,24 +128,16 @@ static void	fill(t_format *s)
 
 static void	print_d(long arg, t_format *s)
 {
-	if (s->prec == 0 && arg == 0)
-		spaces(s->mfw, s);
-	else
-	{
-		fill(s);
+	fill(s);
+	if (s->prec != 0 || s->arg_null != 'y')
 		ft_putnbr(arg, s);
-	}
 }
 
 static void	print_x(char *arg, t_format *s)
 {
-	if (s->prec == 0 && arg[0] == '0' && arg[1] == '\0')
-		spaces(s->mfw, s);
-	else
-	{
-		fill(s);
+	fill(s);
+	if (s->prec != 0 || s->arg_null != 'y')
 		ft_puthex(arg, s);
-	}
 }
 
 static void	print_s(char *arg, t_format *s)
@@ -233,6 +228,8 @@ static void	jotdown_d(t_format *s)
 	long		nbr;
 
 	arg = va_arg(s->args, int);
+	if (arg == 0)
+		s->arg_null = 'y';
 	nbr = arg;
 	if (arg >= 0)
 		s->len = ft_longnbr(arg, 10);
@@ -250,6 +247,8 @@ static void	jotdown_x(t_format *s)
 	unsigned long	aux;
 
 	aux = va_arg(s->args, unsigned int);
+	if (aux == 0)
+		s->arg_null= 'y';
 	arg = dec_to_hexa(aux);
 	s->len = ft_longnbr(aux, 16);
 //	s->len = ft_strlen(arg);
@@ -275,6 +274,7 @@ static void	flags_init(t_format *s)
 	s->convers = ' ';
 	s->mfw = 0;
 	s->prec = -1;
+	s->arg_null = ' ';
 }
 
 static void	s_init(t_format *s)
@@ -303,7 +303,7 @@ static char	ft_look4conversion(const char *str, t_format *s)
 		i = s->largeflag;
 		while (j <= 2)
 		{
-			if (str[i] != PRINTF_VALID_FORMATS[j])
+			if (str[i] != FT_PRINTF_VALID_FORMATS[j])
 				s->flagstr[i - 1] = str[i];
 			else
 			{
