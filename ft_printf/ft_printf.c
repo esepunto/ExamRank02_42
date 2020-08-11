@@ -109,37 +109,7 @@ static void	zeros(int c, t_format *s)
 		ft_putchar('0', s);
 }
 
-/*
-** Intentar unir if_pos y if_neg en una unica funcion.
-** Parece sencillo porque comparten comportamientos.
-*/
-static void	if_neg_precision_d(long arg, t_format *s)
-{
-	if (s->prec < s->len)
-		spaces(s->mfw - s->len, s);
-	else if (s->mfw > s->prec)
-		spaces((s->mfw - s->prec) - 1, s);
-//	if (arg < 0)
-//	{
-	arg = arg * (-1);
-	ft_putchar('-', s);
-//	}
-	zeros(s->prec - s->len + 1, s);
-	ft_putnbr(arg, s);
-}
-
-static void	if_neg_d(long arg, t_format *s)
-{
-	if (s->prec >= 0)
-		if_neg_precision_d(arg, s);
-	else
-	{
-		spaces(s->mfw - s->len, s);
-		ft_putnbr(arg, s);
-	}
-}
-
-static void	if_pos(t_format *s)
+static void	fill(t_format *s)
 {
 	if (s->prec >= 0)
 	{
@@ -157,11 +127,9 @@ static void	print_d(long arg, t_format *s)
 {
 	if (s->prec == 0 && arg == 0)
 		spaces(s->mfw, s);
-	else if (arg < 0)
-		if_neg_d(arg, s);
 	else
 	{
-		if_pos(s);
+		fill(s);
 		ft_putnbr(arg, s);
 	}
 }
@@ -172,7 +140,7 @@ static void	print_x(char *arg, t_format *s)
 		spaces(s->mfw, s);
 	else
 	{
-		if_pos(s);
+		fill(s);
 		ft_puthex(arg, s);
 	}
 }
