@@ -47,7 +47,7 @@ static void	ft_putchar(int c, t_format *s)
 	s->how_many++;
 }
 
-static void	ft_putnbr(int nb, t_format *s)
+static void	ft_putnbr(long nb, t_format *s)
 {
 	unsigned int	copy_nb;
 
@@ -149,26 +149,6 @@ static char	*ft_itoa(int n)
 	return (str);
 }
 
-static void	print_int_min_pos(int arg, t_format *s)
-{
-	if (arg != -2147483648)
-		ft_putnbr(arg, s);
-	else
-	{
-//		ft_putstr("2147483648", s);
-		write(1, "2147483648", 10);
-		s->how_many = s->how_many + 10;
-	}
-}
-
-static void	print_int_min_neg(int arg, t_format *s)
-{
-	if (arg != -2147483648)
-		ft_putnbr(arg, s);
-	else
-		ft_putstr("-2147483648",s);
-}
-
 static void	spaces(int c, t_format *s)
 {
 	while (c-- > 0)
@@ -181,7 +161,7 @@ static void	zeros(int c, t_format *s)
 		ft_putchar('0', s);
 }
 
-static void	if_neg_precision_d(int arg, t_format *s)
+static void	if_neg_precision_d(long arg, t_format *s)
 {
 	if (s->prec < s->len)
 		spaces(s->mfw - s->len, s);
@@ -193,17 +173,17 @@ static void	if_neg_precision_d(int arg, t_format *s)
 		ft_putchar('-', s);
 	}
 	zeros(s->prec - s->len + 1, s);
-	print_int_min_pos(arg, s);
+	ft_putnbr(arg, s);
 }
 
-static void	if_neg_d(int arg, t_format *s)
+static void	if_neg_d(long arg, t_format *s)
 {
 	if (s->prec >= 0)
 		if_neg_precision_d(arg, s);
 	else
 	{
 		spaces(s->mfw - s->len, s);
-		print_int_min_neg(arg, s);
+		ft_putnbr(arg, s);
 	}
 }
 
@@ -221,7 +201,7 @@ static void	if_pos(t_format *s)
 		spaces(s->mfw - s->len, s);
 }
 
-static void	print_d(int arg, t_format *s)
+static void	print_d(long arg, t_format *s)
 {
 	if (s->prec == 0 && arg == 0)
 		spaces(s->mfw, s);
@@ -316,7 +296,7 @@ static char	*dec_to_hexa(unsigned long arg)
 
 static void	jotdown_d(t_format *s)
 {
-	int		arg;
+	long		arg;
 
 	arg = va_arg(s->args, int);
 	s->len = ft_strlen(ft_itoa(arg));
