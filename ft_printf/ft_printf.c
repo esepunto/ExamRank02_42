@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/11 03:45:34 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/11 05:09:14 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,17 +109,21 @@ static void	zeros(int c, t_format *s)
 		ft_putchar('0', s);
 }
 
+/*
+** Intentar unir if_pos y if_neg en una unica funcion.
+** Parece sencillo porque comparten comportamientos.
+*/
 static void	if_neg_precision_d(long arg, t_format *s)
 {
 	if (s->prec < s->len)
 		spaces(s->mfw - s->len, s);
 	else if (s->mfw > s->prec)
 		spaces((s->mfw - s->prec) - 1, s);
-	if (arg < 0)
-	{
-		arg = arg * (-1);
-		ft_putchar('-', s);
-	}
+//	if (arg < 0)
+//	{
+	arg = arg * (-1);
+	ft_putchar('-', s);
+//	}
 	zeros(s->prec - s->len + 1, s);
 	ft_putnbr(arg, s);
 }
