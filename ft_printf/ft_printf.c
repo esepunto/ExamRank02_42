@@ -97,42 +97,6 @@ static size_t	ft_strlen(const char *str)
 	return (i);
 }
 
-static char	*ft_itoa(int n)
-{
-	long	nbr;
-	size_t	len = 1;
-	char	*str;
-
-	nbr = n;
-	if (nbr > 0)
-		len = 0;
-	else
-		nbr = -nbr;
-	while (n)
-	{
-		if (len++)
-			n = n / 10;
-		else n = n / 10;
-	}
-	str = (char *)malloc(sizeof(char) * len + 1);
-	if (!str)
-		return (NULL);
-	*(str + len--) = '\0';
-	while (nbr > 0)
-	{
-		*(str + len--) = nbr % 10 + '0';
-		nbr = nbr / 10;
-	}
-	if (len == 0)
-	{
-		if (*(str) == '-')
-			*(str) = '-';
-		else
-			*(str) = '0';
-	}
-	return (str);
-}
-
 static void	spaces(int c, t_format *s)
 {
 	while (c-- > 0)
@@ -278,12 +242,33 @@ static char	*dec_to_hexa(unsigned long arg)
 	return (invert_str(result));
 }
 
+static int	ft_longnbr(long nbr, int base)
+{
+	int i;
+
+	i = 1;
+	while (nbr >= base)
+	{
+		nbr /= base;
+		i++;
+	}
+	return (i);
+}
+
 static void	jotdown_d(t_format *s)
 {
 	long		arg;
+	long		nbr;
 
 	arg = va_arg(s->args, int);
-	s->len = ft_strlen(ft_itoa(arg));
+	nbr = arg;
+	if (arg >= 0)
+		s->len = ft_longnbr(arg, 10);
+	else
+	{
+		nbr *= -1;
+		s->len = (ft_longnbr(nbr, 10)) + 1;
+	}
 	print_d(arg, s);
 }
 
@@ -294,7 +279,8 @@ static void	jotdown_x(t_format *s)
 
 	aux = va_arg(s->args, unsigned int);
 	arg = dec_to_hexa(aux);
-	s->len = ft_strlen(arg);
+	s->len = ft_longnbr(aux, 16);
+//	s->len = ft_strlen(arg);
 	print_x(arg, s);
 }
 
