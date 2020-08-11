@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/11 20:59:29 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/11 21:59:33 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,11 +70,8 @@ static void	ft_putstr(char *str, t_format *s)
 	c = s->prec;
 	if (c < 0)
 		c = s->len;
-	if (c != 0)
-	{
-		while (*str && c-- > 0)
-			ft_putchar(*(str++), s);
-	}
+	while (*str && c-- > 0)
+		ft_putchar(*(str++), s);
 }
 
 static void	ft_puthex(char *str, t_format *s)
@@ -124,20 +121,6 @@ static void	fill(t_format *s)
 	}
 	else
 		spaces(s->mfw - s->len, s);
-}
-
-static void	print_d(long arg, t_format *s)
-{
-	fill(s);
-	if (s->prec != 0 || s->arg_null != 'y')
-		ft_putnbr(arg, s);
-}
-
-static void	print_x(char *arg, t_format *s)
-{
-	fill(s);
-	if (s->prec != 0 || s->arg_null != 'y')
-		ft_puthex(arg, s);
 }
 
 static void	print_s(char *arg, t_format *s)
@@ -232,13 +215,15 @@ static void	jotdown_d(t_format *s)
 		s->arg_null = 'y';
 	nbr = arg;
 	if (arg >= 0)
-		s->len = ft_longnbr(arg, 10);
+	s->len = ft_longnbr(arg, 10);
 	else
 	{
 		nbr *= -1;
 		s->len = (ft_longnbr(nbr, 10)) + 1;
 	}
-	print_d(arg, s);
+	fill(s);
+	if (s->prec != 0 || s->arg_null != 'y')
+		ft_putnbr(arg, s);
 }
 
 static void	jotdown_x(t_format *s)
@@ -252,7 +237,9 @@ static void	jotdown_x(t_format *s)
 	arg = dec_to_hexa(aux);
 	s->len = ft_longnbr(aux, 16);
 //	s->len = ft_strlen(arg);
-	print_x(arg, s);
+	fill(s);
+	if (s->prec != 0 || s->arg_null != 'y')
+		ft_puthex(arg, s);
 }
 
 static void	jotdown_s(t_format *s)
