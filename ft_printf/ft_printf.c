@@ -106,12 +106,12 @@ static int	ft_isdigit(int c)
 
 static size_t	ft_strlen(const char *str)
 {
-	size_t	counter;
+	size_t	i;
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
 }
 
 static char	*ft_itoa(int n)
@@ -222,18 +222,6 @@ static void	if_pos(t_format *s)
 		spaces(s->mfw - s->len, s);
 }
 
-static void	if_pos_d(int arg, t_format *s)
-{
-	if_pos(s);
-	ft_putnbr(arg, s);
-}
-
-static void	if_pos_x(char *arg, t_format *s)
-{
-	if_pos(s);
-	ft_puthex(arg, s);
-}
-
 static void	print_d(int arg, t_format *s)
 {
 	if (s->prec == 0 && arg == 0)
@@ -241,7 +229,10 @@ static void	print_d(int arg, t_format *s)
 	else if (arg < 0)
 		if_neg_d(arg, s);
 	else
-		if_pos_d(arg, s);
+	{
+		if_pos(s);
+		ft_putnbr(arg, s);
+	}
 }
 
 static void	print_x(char *arg, t_format *s)
@@ -249,7 +240,10 @@ static void	print_x(char *arg, t_format *s)
 	if (s->prec == 0 && arg[0] == '0' && arg[1] == '\0')
 		spaces(s->mfw, s);
 	else
-		if_pos_x(arg, s);
+	{
+		if_pos(s);
+		ft_puthex(arg, s);
+	}
 }
 
 static void	print_s(char *arg, t_format *s)
@@ -349,7 +343,6 @@ static void	jotdown_d(t_format *s)
 {
 	int		arg;
 
-	flag(s->flagstr, 0, s);
 	arg = va_arg(s->args, int);
 	s->len = ft_strlen(ft_itoa(arg));
 	print_d(arg, s);
@@ -360,7 +353,6 @@ static void	jotdown_x(t_format *s)
 	char			*arg;
 	unsigned long	aux;
 
-	flag(s->flagstr, 0, s);
 	aux = va_arg(s->args, unsigned int);
 	arg = dec_to_hexa(aux);
 	s->len = ft_strlen(arg);
@@ -371,7 +363,6 @@ static void	jotdown_s(t_format *s)
 {
 	char	*arg;
 
-	flag(s->flagstr, 0, s);
 	arg = va_arg(s->args, char *);
 	if (arg == NULL)
 		arg = "(null)";
@@ -434,6 +425,7 @@ static void	is_percent(const char **str, t_format *s)
 {
 	flags_init(s);
 	s->convers = ft_look4conversion(*str, s);
+	flag(s->flagstr, 0, s);
 	if (s->convers == 's')
 		jotdown_s(s);
 	else if (s->convers == 'd')
