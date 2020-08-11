@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 19:13:45 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/11 03:45:34 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,17 +69,12 @@ static void	ft_putstr(char *str, t_format *s)
 	c = s->prec;
 	if (!str)
 		return ;
-	if (c > 0)
+	
+	if (c < 0)
+		c = s->len;
+	if (c != 0)
 	{
 		while (*str && c-- > 0)
-		{
-			ft_putchar(*str, s);
-			str++;
-		}
-	}
-	else if (s->prec < 0)
-	{
-		while (*str)
 		{
 			ft_putchar(*str, s);
 			str++;
