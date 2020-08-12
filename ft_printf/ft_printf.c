@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/12 21:36:02 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/12 21:45:22 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,19 +155,15 @@ static void	flag(t_format *s)
 	c = 0;
 	flag = s->flagstr;
 	if (ft_isdigit(flag[c]))
-	{
 		while (ft_isdigit(flag[c]))
 			s->mfw = (s->mfw * 10) + (flag[c++] - 48);
-	}
 	if (flag[c] == '.')
 	{
 		c++;
 		s->prec = 0;
 		if (ft_isdigit(flag[c]))
-		{
 			while (ft_isdigit(flag[c]))
 				s->prec = (s->prec * 10) + (flag[c++] - 48);
-		}
 	}
 }
 
@@ -239,7 +235,7 @@ static void	jotdown_d(t_format *s)
 	else
 	{
 		arg *= -1;
-		s->len = (ft_longnbr(arg, 10)) + 1;
+		s->len = ft_longnbr(arg, 10) + 1;
 		fill_neg(s);
 	}
 	if (s->prec != 0 || s->arg_null != 'y')
