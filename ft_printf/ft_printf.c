@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/12 20:45:32 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/12 21:36:02 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct	s_format
 	int		how_many;
 	char	arg_null;
 	int		largeflag;
-	char	flagstr[1276];
+	char	flagstr[1];
 }				t_format;
 
 static void	ft_putchar(int c, t_format *s)
@@ -147,8 +147,13 @@ static void	print_s(char *arg, t_format *s)
 	ft_putstr(arg, s);
 }
 
-static void	flag(char *flag, int c, t_format *s)
+static void	flag(t_format *s)
 {
+	int		c;
+	char	*flag;
+
+	c = 0;
+	flag = s->flagstr;
 	if (ft_isdigit(flag[c]))
 	{
 		while (ft_isdigit(flag[c]))
@@ -322,7 +327,7 @@ static void	is_percent(const char **str, t_format *s)
 {
 	flags_init(s);
 	s->convers = ft_look4conversion(*str, s);
-	flag(s->flagstr, 0, s);
+	flag(s);
 	if (s->convers == 's')
 		jotdown_s(s);
 	else if (s->convers == 'd')
