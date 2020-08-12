@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/12 21:45:22 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/12 22:29:03 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,9 @@ static void	ft_putchar(int c, t_format *s)
 
 static void	ft_putnbr(long nb, t_format *s)
 {
-	unsigned int	copy_nb;
-
-	copy_nb = nb;
-	if (copy_nb > 9)
-		ft_putnbr(copy_nb / 10, s);
-	ft_putchar(copy_nb % 10 + '0', s);
+	if (nb > 9)
+		ft_putnbr(nb / 10, s);
+	ft_putchar(nb % 10 + '0', s);
 }
 
 static void	ft_putstr(char *str, t_format *s)
@@ -167,26 +164,9 @@ static void	flag(t_format *s)
 	}
 }
 
-static char	*invert_str(char *str)
-{
-	int		i;
-	int		j;
-	char	tmp;
+static int	ft_longnbr(long nbr, int base);
 
-	i = 0;
-	j = ft_strlen(str) - 1;
-	while (i <= j)
-	{
-		tmp = str[i];
-		str[i] = str[j];
-		str[j] = tmp;
-		i++;
-		j--;
-	}
-	return (str);
-}
-
-static char	*dec_to_hexa(unsigned long arg)
+static char	*dec_to_hexa(unsigned long arg, t_format *s)
 {
 	static char		result[20];
 	int				i;
@@ -194,17 +174,18 @@ static char	*dec_to_hexa(unsigned long arg)
 	char			*hexalower;
 
 	hexalower = "0123456789abcdef";
-	i = 0;
+	s->len = ft_longnbr(arg, 16);
+	i = s->len -1;
 	if (arg == 0)
 		return ("0\0");
 	while (arg)
 	{
 		temp = arg % 16;
-		result[i++] = hexalower[temp];
+		result[i--] = hexalower[temp];
 		arg = arg / 16;
 	}
-	result[i] = '\0';
-	return (invert_str(result));
+	result[s->len] = '\0';
+	return (result);
 }
 
 static int	ft_longnbr(long nbr, int base)
@@ -250,7 +231,7 @@ static void	jotdown_x(t_format *s)
 	aux = va_arg(s->args, unsigned int);
 	if (aux == 0)
 		s->arg_null= 'y';
-	arg = dec_to_hexa(aux);
+	arg = dec_to_hexa(aux, s);
 	s->len = ft_longnbr(aux, 16);
 //	s->len = ft_strlen(arg);
 	fill(s);
