@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/11 21:59:33 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/12 20:45:32 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 **		times.
 **	3) Works with convers with different states, even by similar ways.
 **	4) Any conversion uses a "different" ft_ (function):
-**		jotdown_dec (%d), jotdown_hexa (%x) and jotdown_string (%s)
+**		jotdown_dec (%d), jotdown_hexa (%x) and jotdown_string (%s).
 */
 
 #include <unistd.h>
@@ -52,11 +52,6 @@ static void	ft_putnbr(long nb, t_format *s)
 {
 	unsigned int	copy_nb;
 
-	if (nb < 0)
-	{
-		ft_putchar('-', s);
-		nb = (nb * (-1));
-	}
 	copy_nb = nb;
 	if (copy_nb > 9)
 		ft_putnbr(copy_nb / 10, s);
@@ -87,12 +82,12 @@ static int	ft_isdigit(int c)
 
 static size_t	ft_strlen(const char *str)
 {
-	size_t	i;
+	size_t	c;
 
-	i = 0;
-	while (str[i])
-		i++;
-	return (i);
+	c = 0;
+	while (str[c])
+		c++;
+	return (c);
 }
 
 static void	spaces(int c, t_format *s)
@@ -123,11 +118,31 @@ static void	fill(t_format *s)
 		spaces(s->mfw - s->len, s);
 }
 
+static void	fill_neg(t_format *s)
+{
+	if (s->prec == 0 && s->arg_null == 'y')
+		spaces(s->mfw, s);
+	else if (s->prec >= 0)
+	{
+		if (s->prec <= s->len)
+			spaces(s->mfw - s->len, s);
+		else
+			spaces(s->mfw - s->prec - 1, s);
+		ft_putchar('-', s);
+		zeros(s->prec - s->len + 1, s);
+	}
+	else
+	{
+		spaces(s->mfw - s->len, s);
+		ft_putchar('-', s);
+	}
+}
+
 static void	print_s(char *arg, t_format *s)
 {
 	if (s->prec >= s->len || s->prec < 0)
 		spaces(s->mfw - s->len, s);
-	else if (s->prec >= 0)
+	else
 		spaces(s->mfw - s->prec, s);
 	ft_putstr(arg, s);
 }
@@ -181,11 +196,10 @@ static char	*dec_to_hexa(unsigned long arg)
 	i = 0;
 	if (arg == 0)
 		return ("0\0");
-	while (arg != 0)
+	while (arg)
 	{
 		temp = arg % 16;
-		result[i] = hexalower[temp];
-		i++;
+		result[i++] = hexalower[temp];
 		arg = arg / 16;
 	}
 	result[i] = '\0';
@@ -194,34 +208,35 @@ static char	*dec_to_hexa(unsigned long arg)
 
 static int	ft_longnbr(long nbr, int base)
 {
-	int i;
+	int c;
 
-	i = 1;
+	c = 1;
 	while (nbr >= base)
 	{
 		nbr /= base;
-		i++;
+		c++;
 	}
-	return (i);
+	return (c);
 }
 
 static void	jotdown_d(t_format *s)
 {
 	long		arg;
-	long		nbr;
 
 	arg = va_arg(s->args, int);
 	if (arg == 0)
 		s->arg_null = 'y';
-	nbr = arg;
 	if (arg >= 0)
-	s->len = ft_longnbr(arg, 10);
+	{
+		s->len = ft_longnbr(arg, 10);
+		fill(s);
+	}
 	else
 	{
-		nbr *= -1;
-		s->len = (ft_longnbr(nbr, 10)) + 1;
+		arg *= -1;
+		s->len = (ft_longnbr(arg, 10)) + 1;
+		fill_neg(s);
 	}
-	fill(s);
 	if (s->prec != 0 || s->arg_null != 'y')
 		ft_putnbr(arg, s);
 }
