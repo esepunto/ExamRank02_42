@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/12 22:29:03 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/13 12:30:59 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,11 @@ static void	fill_neg(t_format *s)
 		if (s->prec <= s->len)
 			spaces(s->mfw - s->len, s);
 		else
-			spaces(s->mfw - s->prec - 1, s);
+//			spaces(s->mfw - s->prec - 1, s);
+			spaces(s->mfw - s->prec, s);
 		ft_putchar('-', s);
-		zeros(s->prec - s->len + 1, s);
+		zeros(s->prec - s->len, s);
+//		zeros(s->prec - s->len + 1, s);
 	}
 	else
 	{
@@ -217,6 +219,8 @@ static void	jotdown_d(t_format *s)
 	{
 		arg *= -1;
 		s->len = ft_longnbr(arg, 10) + 1;
+		if (s->prec > s->len)
+			s->prec++;
 		fill_neg(s);
 	}
 	if (s->prec != 0 || s->arg_null != 'y')
