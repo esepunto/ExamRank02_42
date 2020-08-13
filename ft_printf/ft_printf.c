@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/13 17:42:43 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/13 18:09:11 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ static void	jotdown_d(t_format *s)
 		s->neg = 'y';
 		arg *= -1;
 		s->len = ft_longnbr(arg, 10) + 1;
-		if (s->prec > s->len)
+		if (s->prec)
 			s->prec++;
 	}
 	fill(s);
