@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/13 12:30:59 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/13 17:28:00 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,8 @@ typedef struct	s_format
 	va_list	args;
 	int		len;
 	int		how_many;
-	char	arg_null;
+	char	null;
+	char	neg;
 	int		largeflag;
 	char	flagstr[1];
 }				t_format;
@@ -101,7 +102,7 @@ static void	zeros(int c, t_format *s)
 
 static void	fill(t_format *s)
 {
-	if (s->prec == 0 && s->arg_null == 'y')
+	if (s->prec == 0 && s->null == 'y')
 		spaces(s->mfw, s);
 	else if (s->prec >= 0)
 	{
@@ -109,31 +110,15 @@ static void	fill(t_format *s)
 			spaces(s->mfw - s->len, s);
 		else
 			spaces(s->mfw - s->prec, s);
+		if (s->neg == 'y')
+			ft_putchar('-', s);
 		zeros(s->prec - s->len, s);
-	}
-	else
-		spaces(s->mfw - s->len, s);
-}
-
-static void	fill_neg(t_format *s)
-{
-	if (s->prec == 0 && s->arg_null == 'y')
-		spaces(s->mfw, s);
-	else if (s->prec >= 0)
-	{
-		if (s->prec <= s->len)
-			spaces(s->mfw - s->len, s);
-		else
-//			spaces(s->mfw - s->prec - 1, s);
-			spaces(s->mfw - s->prec, s);
-		ft_putchar('-', s);
-		zeros(s->prec - s->len, s);
-//		zeros(s->prec - s->len + 1, s);
 	}
 	else
 	{
 		spaces(s->mfw - s->len, s);
-		ft_putchar('-', s);
+		if (s->neg == 'y')
+			ft_putchar('-', s);
 	}
 }
 
@@ -209,21 +194,19 @@ static void	jotdown_d(t_format *s)
 
 	arg = va_arg(s->args, int);
 	if (arg == 0)
-		s->arg_null = 'y';
+		s->null = 'y';
 	if (arg >= 0)
-	{
 		s->len = ft_longnbr(arg, 10);
-		fill(s);
-	}
 	else
 	{
+		s->neg = 'y';
 		arg *= -1;
 		s->len = ft_longnbr(arg, 10) + 1;
 		if (s->prec > s->len)
 			s->prec++;
-		fill_neg(s);
 	}
-	if (s->prec != 0 || s->arg_null != 'y')
+	fill(s);
+	if (s->prec != 0 || s->null != 'y')
 		ft_putnbr(arg, s);
 }
 
@@ -234,12 +217,12 @@ static void	jotdown_x(t_format *s)
 
 	aux = va_arg(s->args, unsigned int);
 	if (aux == 0)
-		s->arg_null= 'y';
+		s->null= 'y';
 	arg = dec_to_hexa(aux, s);
 	s->len = ft_longnbr(aux, 16);
 //	s->len = ft_strlen(arg);
 	fill(s);
-	if (s->prec != 0 || s->arg_null != 'y')
+	if (s->prec != 0 || s->null != 'y')
 		ft_puthex(arg, s);
 }
 
@@ -262,7 +245,8 @@ static void	flags_init(t_format *s)
 	s->convers = ' ';
 	s->mfw = 0;
 	s->prec = -1;
-	s->arg_null = ' ';
+	s->null = ' ';
+	s->neg = ' ';
 }
 
 static void	s_init(t_format *s)
