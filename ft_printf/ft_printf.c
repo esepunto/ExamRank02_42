@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/13 17:28:00 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/13 17:42:43 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,30 +151,6 @@ static void	flag(t_format *s)
 	}
 }
 
-static int	ft_longnbr(long nbr, int base);
-
-static char	*dec_to_hexa(unsigned long arg, t_format *s)
-{
-	static char		result[20];
-	int				i;
-	unsigned long	temp;
-	char			*hexalower;
-
-	hexalower = "0123456789abcdef";
-	s->len = ft_longnbr(arg, 16);
-	i = s->len -1;
-	if (arg == 0)
-		return ("0\0");
-	while (arg)
-	{
-		temp = arg % 16;
-		result[i--] = hexalower[temp];
-		arg = arg / 16;
-	}
-	result[s->len] = '\0';
-	return (result);
-}
-
 static int	ft_longnbr(long nbr, int base)
 {
 	int c;
@@ -186,6 +162,27 @@ static int	ft_longnbr(long nbr, int base)
 		c++;
 	}
 	return (c);
+}
+
+static char	*dec_to_hexa(unsigned long arg, t_format *s)
+{
+	static char		result[20];
+	int				i;
+	unsigned long	temp;
+	char			*hexalower;
+
+	hexalower = "0123456789abcdef";
+	i = s->len -1;
+	if (arg == 0)
+		return ("0\0");
+	while (arg)
+	{
+		temp = arg % 16;
+		result[i--] = hexalower[temp];
+		arg = arg / 16;
+	}
+	result[s->len] = '\0';
+	return (result);
 }
 
 static void	jotdown_d(t_format *s)
@@ -218,9 +215,8 @@ static void	jotdown_x(t_format *s)
 	aux = va_arg(s->args, unsigned int);
 	if (aux == 0)
 		s->null= 'y';
-	arg = dec_to_hexa(aux, s);
 	s->len = ft_longnbr(aux, 16);
-//	s->len = ft_strlen(arg);
+	arg = dec_to_hexa(aux, s);
 	fill(s);
 	if (s->prec != 0 || s->null != 'y')
 		ft_puthex(arg, s);
