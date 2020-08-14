@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/13 18:09:11 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/14 18:11:35 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,11 +190,10 @@ static void	jotdown_d(t_format *s)
 	long		arg;
 
 	arg = va_arg(s->args, int);
+	s->len = ft_longnbr(arg, 10);
 	if (arg == 0)
 		s->null = 'y';
-	if (arg >= 0)
-		s->len = ft_longnbr(arg, 10);
-	else
+	if (arg < 0)
 	{
 		s->neg = 'y';
 		arg *= -1;
