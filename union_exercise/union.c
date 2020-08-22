@@ -6,11 +6,12 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/04 10:09:47 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/06 21:48:55 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/19 10:07:18 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
+#include <stdlib.h>
 
 static char	*ft_strjoin_no_malloc(char *s1, char *s2)
 {
@@ -52,4 +53,5 @@ int			main(int argc, char **argv)
 		}
 	}
 	write(1, "\n", 1);
+//	system("leaks union");
 }

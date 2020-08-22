@@ -6,10 +6,11 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:13:07 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/07 10:41:29 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/19 10:05:06 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdlib.h>
 #include <unistd.h>
 
 static char	*ft_strchr(char *string_to_search, int character_to_find)
@@ -51,4 +52,5 @@ int			main(int argc, char **argv)
 		}
 	}
 	write(1, "\n", 1);
+//	system("leaks inter");
 }

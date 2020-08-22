@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <limits.h>
+#include <stdlib.h>
 
 int
 	ft_printf(char const *format, ...);
@@ -115,4 +116,5 @@ int
 	F("jaja[%30.10s] [%.3s] [%.30s] [%20s] [%30.10d] [%30d %.10d] [%30.10d] [%5.0d] [%30.10x] [%30x] [%.10x] [%30.10x] [%5.0x] |line%d|", "jaime que", "jaime", "jaime", "jaime", 30, 30 , 303030, -303030, 0, 30, 30 , 303030, -303030, 0,__LINE__);
 	F("[%6d], [%10.3s] |line%d|", (int)-2147483648, "",__LINE__);
 	printf("written: %d\n", r);
+//	system("leaks ft_printf");
 }

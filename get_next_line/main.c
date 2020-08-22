@@ -6,7 +6,7 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 09:32:40 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 09:57:26 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/19 09:32:02 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,4 +31,5 @@ int
 	printf("%s", line);
 	free(line);
 	line = NULL;
+	system("leaks get_next_line");
 }
