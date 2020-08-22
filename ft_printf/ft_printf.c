@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/22 20:55:01 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/22 21:24:20 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -260,16 +260,14 @@ static void	s_init(t_format *s)
 static char	ft_look4conversion(const char *str, t_format *s)
 {
 	int		i;
-	int		j;
 
 	while (*str)
 	{
-		j = 0;
 		s->largeflag++;
 		i = s->largeflag;
-		while (j <= 2)
+		for (int j = 0; j <= 2; j++)
 		{
-			if (str[i] == FT_PRINTF_VALID_FORMATS[j++])
+			if (str[i] == FT_PRINTF_VALID_FORMATS[j])
 			{
 				s->flagstr[i - 1] = '\0';
 				return (str[i]);
