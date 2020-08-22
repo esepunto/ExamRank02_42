@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/22 21:24:20 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/22 21:47:54 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,20 +43,20 @@ typedef struct	s_format
 	char	flagstr[1];
 }				t_format;
 
-static void	ft_putchar(int c, t_format *s)
+static void		ft_putchar(int c, t_format *s)
 {
 	write(1, &c, 1);
 	s->how_many++;
 }
 
-static void	ft_putnbr(long nb, t_format *s)
+static void		ft_putnbr(long nb, t_format *s)
 {
 	if (nb > 9)
 		ft_putnbr(nb / 10, s);
 	ft_putchar(nb % 10 + '0', s);
 }
 
-static void	ft_putstr(char *str, t_format *s)
+static void		ft_putstr(char *str, t_format *s)
 {
 	int		c;
 
@@ -67,13 +67,13 @@ static void	ft_putstr(char *str, t_format *s)
 		ft_putchar(*(str++), s);
 }
 
-static void	ft_puthex(char *str, t_format *s)
+static void		ft_puthex(char *str, t_format *s)
 {
 	while (*str)
 		ft_putchar(*(str++), s);
 }
 
-static int	ft_isdigit(int c)
+static int		ft_isdigit(int c)
 {
 	return ((unsigned char)c >= '0' && (unsigned char)c <= '9');
 }
@@ -88,19 +88,19 @@ static size_t	ft_strlen(const char *str)
 	return (c);
 }
 
-static void	spaces(int c, t_format *s)
+static void		spaces(int c, t_format *s)
 {
 	while (c-- > 0)
 		ft_putchar(' ', s);
 }
 
-static void	zeros(int c, t_format *s)
+static void		zeros(int c, t_format *s)
 {
 	while (c-- > 0)
 		ft_putchar('0', s);
 }
 
-static void	fill(t_format *s)
+static void		fill(t_format *s)
 {
 	if (s->prec == 0 && s->null == 'y')
 		spaces(s->mfw, s);
@@ -122,7 +122,7 @@ static void	fill(t_format *s)
 	}
 }
 
-static void	print_s(char *arg, t_format *s)
+static void		print_s(char *arg, t_format *s)
 {
 	if (s->prec >= s->len || s->prec < 0)
 		spaces(s->mfw - s->len, s);
@@ -131,7 +131,7 @@ static void	print_s(char *arg, t_format *s)
 	ft_putstr(arg, s);
 }
 
-static void	flag(t_format *s)
+static void		flag(t_format *s)
 {
 	int		c;
 	char	*flag;
@@ -151,7 +151,7 @@ static void	flag(t_format *s)
 	}
 }
 
-static int	ft_longnbr(long nbr, int base)
+static int		ft_longnbr(long nbr, int base)
 {
 	int c;
 
@@ -164,7 +164,7 @@ static int	ft_longnbr(long nbr, int base)
 	return (c);
 }
 
-static char	*dec_to_hexa(unsigned long arg, t_format *s)
+static char		*dec_to_hexa(unsigned long arg, t_format *s)
 {
 	static char		result[20];
 	int				i;
@@ -172,7 +172,7 @@ static char	*dec_to_hexa(unsigned long arg, t_format *s)
 	char			*hexalower;
 
 	hexalower = "0123456789abcdef";
-	i = s->len -1;
+	i = s->len - 1;
 	if (arg == 0)
 		return ("0\0");
 	while (arg)
@@ -185,7 +185,7 @@ static char	*dec_to_hexa(unsigned long arg, t_format *s)
 	return (result);
 }
 
-static void	jotdown_d(t_format *s)
+static void		jotdown_d(t_format *s)
 {
 	long		arg;
 
@@ -206,14 +206,14 @@ static void	jotdown_d(t_format *s)
 		ft_putnbr(arg, s);
 }
 
-static void	jotdown_x(t_format *s)
+static void		jotdown_x(t_format *s)
 {
 	char			*arg;
 	unsigned long	aux;
 
 	aux = va_arg(s->args, unsigned int);
 	if (aux == 0)
-		s->null= 'y';
+		s->null = 'y';
 	s->len = ft_longnbr(aux, 16);
 	arg = dec_to_hexa(aux, s);
 	fill(s);
@@ -221,7 +221,7 @@ static void	jotdown_x(t_format *s)
 		ft_puthex(arg, s);
 }
 
-static void	jotdown_s(t_format *s)
+static void		jotdown_s(t_format *s)
 {
 	char	*arg;
 
@@ -232,7 +232,7 @@ static void	jotdown_s(t_format *s)
 	print_s(arg, s);
 }
 
-static void	flags_init(t_format *s)
+static void		flags_init(t_format *s)
 {
 	s->flagstr[0] = *("");
 	s->largeflag = 0;
@@ -244,7 +244,7 @@ static void	flags_init(t_format *s)
 	s->neg = ' ';
 }
 
-static void	s_init(t_format *s)
+static void		s_init(t_format *s)
 {
 	s->how_many = 0;
 	flags_init(s);
@@ -253,21 +253,24 @@ static void	s_init(t_format *s)
 /*
 **	This ft_ have a double function:
 **		1) Return str[i]: this is the type of conversion: d,s,c.
-**		2) Save the string-flag in var t_format s->flagstr. The program 
+**		2) Save the string-flag in var t_format s->flagstr. The program
 **			will check the flags in this new string: it never
 **			checks on the original string.
 */
-static char	ft_look4conversion(const char *str, t_format *s)
+
+static char		ft_look4conversion(const char *str, t_format *s)
 {
 	int		i;
+	int		j;
 
 	while (*str)
 	{
+		j = 0;
 		s->largeflag++;
 		i = s->largeflag;
-		for (int j = 0; j <= 2; j++)
+		while (j <= 2)
 		{
-			if (str[i] == FT_PRINTF_VALID_FORMATS[j])
+			if (str[i] == FT_PRINTF_VALID_FORMATS[j++])
 			{
 				s->flagstr[i - 1] = '\0';
 				return (str[i]);
@@ -278,7 +281,7 @@ static char	ft_look4conversion(const char *str, t_format *s)
 	return (str[i]);
 }
 
-static void	is_percent(const char **str, t_format *s)
+static void		is_percent(const char **str, t_format *s)
 {
 	flags_init(s);
 	s->convers = ft_look4conversion(*str, s);
@@ -292,7 +295,7 @@ static void	is_percent(const char **str, t_format *s)
 	*str = *str + s->largeflag;
 }
 
-int			ft_printf(const char *str, ...)
+int				ft_printf(const char *str, ...)
 {
 	t_format	s;
 
