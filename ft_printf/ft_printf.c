@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/22 18:42:00 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/22 20:55:01 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,11 +252,10 @@ static void	s_init(t_format *s)
 
 /*
 **	This ft_ have a double function:
-**		1) Return the type of conversion: d,s,c,x...
-**		2) Save the string-flag in t_format s->flagstr
-**
-**	The program always check the flags in this new string: it never
-**	checks on the original string.
+**		1) Return str[i]: this is the type of conversion: d,s,c.
+**		2) Save the string-flag in var t_format s->flagstr. The program 
+**			will check the flags in this new string: it never
+**			checks on the original string.
 */
 static char	ft_look4conversion(const char *str, t_format *s)
 {
@@ -268,16 +267,15 @@ static char	ft_look4conversion(const char *str, t_format *s)
 		j = 0;
 		s->largeflag++;
 		i = s->largeflag;
-		while (str[i] != FT_PRINTF_VALID_FORMATS[j] && j<= 2)
+		while (j <= 2)
 		{
-			s->flagstr[i - 1] = str[i];
-			j++;
+			if (str[i] == FT_PRINTF_VALID_FORMATS[j++])
+			{
+				s->flagstr[i - 1] = '\0';
+				return (str[i]);
+			}
 		}
-		if (str[i] == FT_PRINTF_VALID_FORMATS[j])
-		{
-			s->flagstr[i - 1] = '\0';
-			return (str[i]);
-		}
+		s->flagstr[i - 1] = str[i];
 	}
 	return (str[i]);
 }
