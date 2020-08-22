@@ -22,6 +22,7 @@ int
 	F("");
 	F("--Format---");
 	F("|line%d|\n",__LINE__);
+	F("%d|line%d|", (int)NULL,__LINE__);
 	F("%d|line%d|", 0,__LINE__);
 	F("%d|line%d|", 42,__LINE__);
 	F("%d|line%d|", 1,__LINE__);
@@ -33,6 +34,7 @@ int
 	F("%d|line%d|", (int)-2147483648,__LINE__);
 	F("%d|line%d|", (int)-2147483649,__LINE__);
 	F("|line%d|\n",__LINE__);
+	F("%x|line%d|", (unsigned int)NULL,__LINE__);
 	F("%x|line%d|", 0,__LINE__);
 	F("%x|line%d|", 42,__LINE__);
 	F("%x|line%d|", 1,__LINE__);

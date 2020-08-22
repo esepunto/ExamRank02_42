@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/22 21:47:54 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/22 22:34:10 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ static void		flag(t_format *s)
 			s->mfw = (s->mfw * 10) + (flag[c++] - 48);
 	if (flag[c] == '.')
 	{
-		c++;
 		s->prec = 0;
+		c++;
 		if (ft_isdigit(flag[c]))
 			while (ft_isdigit(flag[c]))
 				s->prec = (s->prec * 10) + (flag[c++] - 48);
@@ -193,7 +193,7 @@ static void		jotdown_d(t_format *s)
 	s->len = ft_longnbr(arg, 10);
 	if (arg == 0)
 		s->null = 'y';
-	if (arg < 0)
+	else if (arg < 0)
 	{
 		s->neg = 'y';
 		arg *= -1;
@@ -252,7 +252,7 @@ static void		s_init(t_format *s)
 
 /*
 **	This ft_ have a double function:
-**		1) Return str[i]: this is the type of conversion: d,s,c.
+**		1) Return str[i]: this is the type of conversion: %d, %x,%s.
 **		2) Save the string-flag in var t_format s->flagstr. The program
 **			will check the flags in this new string: it never
 **			checks on the original string.
@@ -299,8 +299,6 @@ int				ft_printf(const char *str, ...)
 {
 	t_format	s;
 
-	if (!str || !*str)
-		return (0);
 	va_start(s.args, str);
 	s_init(&s);
 	while (*str != '\0')
