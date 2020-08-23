@@ -6,13 +6,21 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/23 12:33:08 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/23 18:17:54 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *str);
+size_t	ft_strlen(const char *str)
+{
+	size_t	c;
+
+	c = 0;
+	while (str[c])
+		c++;
+	return (c);
+}
 
 char	*ft_strdup(const char *s1)
 {
@@ -31,16 +39,6 @@ char	*ft_strdup(const char *s1)
 		}
 		twin[i] = '\0';
 		return (twin);
-}
-
-size_t	ft_strlen(const char *str)
-{
-	size_t	c;
-
-	c = 0;
-	while (str[c])
-		c++;
-	return (c);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
