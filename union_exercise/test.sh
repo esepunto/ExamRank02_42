@@ -6,12 +6,24 @@
 #    By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/07 08:57:10 by ssacrist          #+#    #+#              #
-#    Updated: 2020/08/07 08:58:52 by ssacrist         ###   ########.fr        #
+#    Updated: 2020/08/23 10:21:03 by ssacrist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 gcc -Wall -Werror -Wextra union.c -o union
 echo "# Expected result (next line) Your result #"
+echo "---"
+echo "samuel$"
+./union samuel "" | cat -e
+echo "---"
+echo "samuelndr$"
+./union samuel sandra | cat -e
+echo "---"
+echo "zpadintoqe$"
+./union zpadinton "paqe" | cat -e
+echo "---"
+echo "paqefwtdjyinoz$"
+./union "paqefwtdjetyiytjneytjoeyjnejeyj" zpadinton | cat -e
 echo "---"
 echo "zpadintoqefwjy$"
 ./union zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj" | cat -e

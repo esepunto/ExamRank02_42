@@ -6,46 +6,46 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:13:07 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/19 10:05:06 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/23 11:14:27 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 
-static char	*ft_strchr(char *string_to_search, int character_to_find)
+static char	*ft_strchr(char *str_whr_srch, int char2find)
 {
-	while (*string_to_search)
+	while (*str_whr_srch)
 	{
-		if (*string_to_search == character_to_find)
-			return ((char*)string_to_search);
-		string_to_search++;
+		if (*str_whr_srch == char2find)
+			return ((char*)str_whr_srch);
+		str_whr_srch++;
 	}
-	if (character_to_find == '\0')
-		return ((char*)string_to_search);
+	if (char2find == '\0')
+		return ((char*)str_whr_srch);
 	return (0);
 }
 
 int			main(int argc, char **argv)
 {
 	int		i;
-	int		c;
+	int		j;
 
 	i = 0;
 	if (argc == 3)
 	{
 		while (argv[1][i])
 		{
-			c = i - 1;
+			j = i - 1;
 			if (ft_strchr(argv[2], argv[1][i]) != 0)
 			{
-				while (c >= -1)
+				while (j >= -1)
 				{
-					if (argv[1][i] == argv[1][c])
+					if (argv[1][i] == argv[1][j])
 						break ;
-					else if (c == 0 || i == 0)
+					else if (j == 0 || i == 0)
 						write(1, &argv[1][i], 1);
-					c--;
+					j--;
 				}
 			}
 			i++;

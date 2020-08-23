@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/10 09:59:45 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/23 12:14:39 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,31 +16,31 @@ size_t	ft_strlen(const char *str);
 
 char	*ft_strdup(const char *s1)
 {
-		char	*tab;
+		char	*twin;
 		int		i;
 
-		tab = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-		if (!tab)
+		twin = malloc(sizeof(char) * (ft_strlen(s1) + 1));
+		if (!twin)
 			return (NULL);
 		i = 0;
 		while (*s1 != '\0')
 		{
-			tab[i] = *((char *)s1);
+			twin[i] = *((char *)s1);
 			i++;
 			s1++;
 		}
-		tab[i] = '\0';
-		return (tab);
+		twin[i] = '\0';
+		return (twin);
 }
 
 size_t	ft_strlen(const char *str)
 {
-	size_t	counter;
+	size_t	c;
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+	c = 0;
+	while (str[c])
+		c++;
+	return (c);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -59,16 +59,16 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (dest);
 }
 
-char	*ft_strchr(const char *string_to_search, int character_to_find)
+char	*ft_strchr(const char *str_whr_srch, int char2find)
 {
-	while (*string_to_search)
+	while (*str_whr_srch)
 	{
-		if (*string_to_search == character_to_find)
-			return ((char*)string_to_search);
-		string_to_search++;
+		if (*str_whr_srch == char2find)
+			return ((char*)str_whr_srch);
+		str_whr_srch++;
 	}
-	if (character_to_find == '\0')
-		return ((char*)string_to_search);
+	if (char2find == '\0')
+		return ((char*)str_whr_srch);
 	return (0);
 }
 
@@ -83,35 +83,35 @@ void	ft_memdel(void **a)
 char	*ft_extract(char *str)
 {
 	int		i;
-	char	*temp;
+	char	*b4eol;
 
 	i = 0;
-	if (!(temp = malloc(ft_strlen(str) + 1)))
+	if (!(b4eol = malloc(ft_strlen(str) + 1)))
 		return (NULL);
 	while (*str != '\n')
-		temp[i++] = *str++;
-	temp[i] = '\0';
-	return (temp);
+		b4eol[i++] = *str++;
+	b4eol[i] = '\0';
+	return (b4eol);
 }
 
-int		ft_chop(char **str, char **line)
+int		ft_chop(char **wr_nd_wipe, char **line)
 {
 	char	*temp;
 
-	if (*str && ft_strchr(*str, '\n') > 0)
+	if (*wr_nd_wipe && ft_strchr(*wr_nd_wipe, '\n') > 0)
 	{
-		temp = ft_strchr(*str, '\n') + 1;
+		temp = ft_strchr(*wr_nd_wipe, '\n') + 1;
 		temp = ft_strdup(temp);
-		*line = ft_extract(*str);
-		ft_memdel((void **)str);
-		*str = temp;
+		*line = ft_extract(*wr_nd_wipe);
+		ft_memdel((void **)wr_nd_wipe);
+		*wr_nd_wipe = temp;
 		return (1);
 	}
-	if (*str != 0)
-		*line = ft_strdup(*str);
+	if (*wr_nd_wipe != 0)
+		*line = ft_strdup(*wr_nd_wipe);
 	else
 		*line = ft_strdup("");
-	ft_memdel((void **)str);
+	ft_memdel((void **)wr_nd_wipe);
 	return (0);
 }
 
@@ -119,7 +119,7 @@ int		get_next_line(char **line)
 {
 	int			bytes_buf;
 	char		*buffer;
-	static char	*dest;
+	static char	*wr_nd_wipe;
 	char		*aux;
 
 	if (!(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))) || !line || BUFFER_SIZE < 1 || read(0, buffer, 0) < 0)
@@ -127,17 +127,17 @@ int		get_next_line(char **line)
 	while ((bytes_buf = read(0, buffer, BUFFER_SIZE)) > 0)
 	{
 		buffer[bytes_buf] = '\0';
-		if (!dest)
-			dest = ft_strdup(buffer);
+		if (!wr_nd_wipe)
+			wr_nd_wipe = ft_strdup(buffer);
 		else
 		{
-			aux = ft_strjoin(dest, buffer);
-			ft_memdel((void **)&dest);
-			dest = aux;
+			aux = ft_strjoin(wr_nd_wipe, buffer);
+			ft_memdel((void **)&wr_nd_wipe);
+			wr_nd_wipe = aux;
 		}
-		if (ft_strchr(dest, '\n'))
+		if (ft_strchr(wr_nd_wipe, '\n'))
 			break ;
 	}
 	ft_memdel((void **)&buffer);
-	return (ft_chop(&dest, line));
+	return (ft_chop(&wr_nd_wipe, line));
 }
