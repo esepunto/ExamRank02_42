@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/23 12:14:39 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/23 12:33:08 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,15 +96,15 @@ char	*ft_extract(char *str)
 
 int		ft_chop(char **wr_nd_wipe, char **line)
 {
-	char	*temp;
+	char	*post_eol;
 
 	if (*wr_nd_wipe && ft_strchr(*wr_nd_wipe, '\n') > 0)
 	{
-		temp = ft_strchr(*wr_nd_wipe, '\n') + 1;
-		temp = ft_strdup(temp);
+		post_eol = ft_strchr(*wr_nd_wipe, '\n') + 1;
+		post_eol = ft_strdup(post_eol);
 		*line = ft_extract(*wr_nd_wipe);
 		ft_memdel((void **)wr_nd_wipe);
-		*wr_nd_wipe = temp;
+		*wr_nd_wipe = post_eol;
 		return (1);
 	}
 	if (*wr_nd_wipe != 0)
