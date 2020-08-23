@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/22 22:34:10 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/23 18:08:44 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ static void		print_s(char *arg, t_format *s)
 	ft_putstr(arg, s);
 }
 
-static void		flag(t_format *s)
+static void		idt_flags(t_format *s)
 {
 	int		c;
 	char	*flag;
@@ -232,7 +232,7 @@ static void		jotdown_s(t_format *s)
 	print_s(arg, s);
 }
 
-static void		flags_init(t_format *s)
+static void		init_flags(t_format *s)
 {
 	s->flagstr[0] = *("");
 	s->largeflag = 0;
@@ -244,10 +244,10 @@ static void		flags_init(t_format *s)
 	s->neg = ' ';
 }
 
-static void		s_init(t_format *s)
+static void		init_struct(t_format *s)
 {
 	s->how_many = 0;
-	flags_init(s);
+	init_flags(s);
 }
 
 /*
@@ -265,9 +265,9 @@ static char		ft_look4conversion(const char *str, t_format *s)
 
 	while (*str)
 	{
-		j = 0;
 		s->largeflag++;
 		i = s->largeflag;
+		j = 0;
 		while (j <= 2)
 		{
 			if (str[i] == FT_PRINTF_VALID_FORMATS[j++])
@@ -283,9 +283,9 @@ static char		ft_look4conversion(const char *str, t_format *s)
 
 static void		is_percent(const char **str, t_format *s)
 {
-	flags_init(s);
+	init_flags(s);
 	s->convers = ft_look4conversion(*str, s);
-	flag(s);
+	idt_flags(s);
 	if (s->convers == 's')
 		jotdown_s(s);
 	else if (s->convers == 'd')
@@ -300,7 +300,7 @@ int				ft_printf(const char *str, ...)
 	t_format	s;
 
 	va_start(s.args, str);
-	s_init(&s);
+	init_struct(&s);
 	while (*str != '\0')
 	{
 		if (*str == '%')
