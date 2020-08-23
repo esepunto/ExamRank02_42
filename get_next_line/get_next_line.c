@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/23 18:25:36 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/23 18:41:54 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,16 @@ size_t	ft_strlen(const char *str)
 
 char	*ft_strdup(const char *s1)
 {
-		char	*twin;
-		int		i;
+	char	*twin;
+	int		i;
 
-		twin = malloc(sizeof(char) * (ft_strlen(s1) + 1));
-		if (!twin)
-			return (NULL);
-		i = 0;
-		while (*s1 != '\0')
-		{
-			twin[i] = *((char *)s1);
-			i++;
-			s1++;
-		}
-		twin[i] = '\0';
-		return (twin);
+	if (!(twin = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
+		return (NULL);
+	i = 0;
+	while (*s1 != '\0')
+		twin[i++] = *((char *)s1++);
+	twin[i] = '\0';
+	return (twin);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -120,7 +115,8 @@ int		get_next_line(char **line)
 	static char	*wr_nd_wipe;
 	char		*aux;
 
-	if (!(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))) || !line || BUFFER_SIZE < 1 || read(0, buffer, 0) < 0)
+	if (!(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))) || !line
+						|| BUFFER_SIZE < 1 || read(0, buffer, 0) < 0)
 		return (-1);
 	while ((bytes_buf = read(0, buffer, BUFFER_SIZE)) > 0)
 	{
