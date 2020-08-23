@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/23 18:17:54 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/23 18:25:36 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,16 +78,16 @@ void	ft_memdel(void **a)
 	*a = NULL;
 }
 
-char	*ft_extract(char *str)
+char	*ft_extract(char *wr_nd_wipe)
 {
 	int		i;
 	char	*b4eol;
 
 	i = 0;
-	if (!(b4eol = malloc(ft_strlen(str) + 1)))
+	if (!(b4eol = malloc(ft_strlen(wr_nd_wipe) + 1)))
 		return (NULL);
-	while (*str != '\n')
-		b4eol[i++] = *str++;
+	while (*wr_nd_wipe != '\n')
+		b4eol[i++] = *wr_nd_wipe++;
 	b4eol[i] = '\0';
 	return (b4eol);
 }
