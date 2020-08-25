@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/25 17:07:37 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/25 17:16:22 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,16 +22,16 @@ size_t	ft_strlen(const char *str)
 	return (c);
 }
 
-char	*ft_strdup(const char *s1)
+char	*ft_strdup(const char *str)
 {
 	char	*twin;
 	int		i;
 
-	if (!(twin = malloc(sizeof(char) * (ft_strlen(s1) + 1))))
+	if (!(twin = malloc(sizeof(char) * (ft_strlen(str) + 1))))
 		return (NULL);
 	i = 0;
-	while (*s1 != '\0')
-		twin[i++] = *((char *)s1++);
+	while (*str != '\0')
+		twin[i++] = *((char *)str++);
 	twin[i] = '\0';
 	return (twin);
 }
@@ -73,7 +73,7 @@ void	ft_memdel(void **a)
 	*a = NULL;
 }
 
-char	*ft_extract(char *wr_nd_wipe)
+char	*ft_extract_b4eol(char *wr_nd_wipe)
 {
 	int		i;
 	char	*b4eol;
@@ -89,15 +89,15 @@ char	*ft_extract(char *wr_nd_wipe)
 
 int		ft_chop(char **wr_nd_wipe, char **line)
 {
-	char	*post_eol;
+	char	*aftr_eol;
 
 	if (*wr_nd_wipe && ft_strchr(*wr_nd_wipe, '\n') > 0)
 	{
-		post_eol = ft_strchr(*wr_nd_wipe, '\n') + 1;
-		post_eol = ft_strdup(post_eol);
-		*line = ft_extract(*wr_nd_wipe);
+		aftr_eol = ft_strchr(*wr_nd_wipe, '\n') + 1;
+		aftr_eol = ft_strdup(aftr_eol);
+		*line = ft_extract_b4eol(*wr_nd_wipe);
 		ft_memdel((void **)wr_nd_wipe);
-		*wr_nd_wipe = post_eol;
+		*wr_nd_wipe = aftr_eol;
 		return (1);
 	}
 	else if (*wr_nd_wipe != 0)
