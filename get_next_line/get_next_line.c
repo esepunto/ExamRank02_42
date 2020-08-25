@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/23 18:41:54 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/25 17:07:37 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		ft_chop(char **wr_nd_wipe, char **line)
 		*wr_nd_wipe = post_eol;
 		return (1);
 	}
-	if (*wr_nd_wipe != 0)
+	else if (*wr_nd_wipe != 0)
 		*line = ft_strdup(*wr_nd_wipe);
 	else
 		*line = ft_strdup("");
