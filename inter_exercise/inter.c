@@ -6,14 +6,14 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:13:07 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/25 21:45:13 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/25 21:52:45 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 
-static int	ft_strsrch(char *str_whr_srch, int char2find)
+static char	ft_strsrch(char *str_whr_srch, char char2find)
 {
 	while (*str_whr_srch)
 	{
