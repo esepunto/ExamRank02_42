@@ -6,23 +6,20 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/07 09:13:07 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/23 11:14:27 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/25 21:45:13 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <unistd.h>
 
-static char	*ft_strchr(char *str_whr_srch, int char2find)
+static int	ft_strsrch(char *str_whr_srch, int char2find)
 {
 	while (*str_whr_srch)
 	{
-		if (*str_whr_srch == char2find)
-			return ((char*)str_whr_srch);
-		str_whr_srch++;
+		if (*str_whr_srch++ == char2find)
+			return (1);
 	}
-	if (char2find == '\0')
-		return ((char*)str_whr_srch);
 	return (0);
 }
 
@@ -37,7 +34,7 @@ int			main(int argc, char **argv)
 		while (argv[1][i])
 		{
 			j = i - 1;
-			if (ft_strchr(argv[2], argv[1][i]) != 0)
+			if (ft_strsrch(argv[2], argv[1][i]) == 1)
 			{
 				while (j >= -1)
 				{

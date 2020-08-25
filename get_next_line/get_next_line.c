@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/25 17:16:22 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/25 17:36:05 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	ft_memdel(void **a)
 	*a = NULL;
 }
 
-char	*ft_extract_b4eol(char *wr_nd_wipe)
+char	*ft_b4eol(char *wr_nd_wipe)
 {
 	int		i;
 	char	*b4eol;
@@ -95,7 +95,7 @@ int		ft_chop(char **wr_nd_wipe, char **line)
 	{
 		aftr_eol = ft_strchr(*wr_nd_wipe, '\n') + 1;
 		aftr_eol = ft_strdup(aftr_eol);
-		*line = ft_extract_b4eol(*wr_nd_wipe);
+		*line = ft_b4eol(*wr_nd_wipe);
 		ft_memdel((void **)wr_nd_wipe);
 		*wr_nd_wipe = aftr_eol;
 		return (1);

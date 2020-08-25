@@ -6,12 +6,15 @@
 #    By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/08/07 09:25:44 by ssacrist          #+#    #+#              #
-#    Updated: 2020/08/07 09:26:43 by ssacrist         ###   ########.fr        #
+#    Updated: 2020/08/25 21:29:17 by ssacrist         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 gcc -Wall -Werror -Wextra inter.c -o inter
 echo "# Expected result (next line) Your result #"
+echo "---"
+echo "padinto$"
+./inter zpadinton "paqe\0fwtdjetyiytjneytjoeyjnejeyj" | cat -e
 echo "---"
 echo "padinto$"
 ./inter zpadinton "paqefwtdjetyiytjneytjoeyjnejeyj" | cat -e
