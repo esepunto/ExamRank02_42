@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/16 08:29:49 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/25 17:36:05 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/27 09:36:50 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,6 @@ char	*ft_strchr(const char *str_whr_srch, int char2find)
 	return (0);
 }
 
-void	ft_memdel(void **a)
-{
-	if (!a || !*a)
-		return ;
-	free(*a);
-	*a = NULL;
-}
-
 char	*ft_b4eol(char *wr_nd_wipe)
 {
 	int		i;
@@ -93,10 +85,10 @@ int		ft_chop(char **wr_nd_wipe, char **line)
 
 	if (*wr_nd_wipe && ft_strchr(*wr_nd_wipe, '\n') > 0)
 	{
+		*line = ft_b4eol(*wr_nd_wipe);
 		aftr_eol = ft_strchr(*wr_nd_wipe, '\n') + 1;
 		aftr_eol = ft_strdup(aftr_eol);
-		*line = ft_b4eol(*wr_nd_wipe);
-		ft_memdel((void **)wr_nd_wipe);
+		free(*wr_nd_wipe);
 		*wr_nd_wipe = aftr_eol;
 		return (1);
 	}
@@ -104,7 +96,7 @@ int		ft_chop(char **wr_nd_wipe, char **line)
 		*line = ft_strdup(*wr_nd_wipe);
 	else
 		*line = ft_strdup("");
-	ft_memdel((void **)wr_nd_wipe);
+	free(*wr_nd_wipe);
 	return (0);
 }
 
@@ -126,12 +118,12 @@ int		get_next_line(char **line)
 		else
 		{
 			aux = ft_strjoin(wr_nd_wipe, buffer);
-			ft_memdel((void **)&wr_nd_wipe);
+			free(wr_nd_wipe);
 			wr_nd_wipe = aux;
 		}
 		if (ft_strchr(wr_nd_wipe, '\n'))
 			break ;
 	}
-	ft_memdel((void **)&buffer);
+	free(buffer);
 	return (ft_chop(&wr_nd_wipe, line));
 }
