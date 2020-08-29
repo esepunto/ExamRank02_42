@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/29 13:31:37 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/29 14:48:50 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ static void		ft_putchar(int c, t_format *s)
 
 static void		ft_putnbr(int base, long nb, char *str_base, t_format *s)
 {
+	if (s->prec == 0 && s->null == 'y')
+		return ;
 	if (nb >= base)
 		ft_putnbr(base, nb / base, str_base, s);
 	ft_putchar(str_base[nb % base], s);
@@ -141,25 +143,28 @@ static int		ft_longnbr(long nbr, int base)
 	return (c);
 }
 
-static void		jotdown_d(t_format *s)
+static void		fill(int base, long arg, char *str_base, t_format *s)
 {
-	long		arg;
-
-	arg = va_arg(s->args, int);
-	s->len = ft_longnbr(arg, 10);
+	s->len = ft_longnbr(arg, base);
 	if (arg == 0)
 		s->null = 'y';
 	else if (arg < 0)
 	{
 		s->neg = 'y';
 		arg *= -1;
-		s->len = ft_longnbr(arg, 10) + 1;
-		if (s->prec)
-			s->prec++;
+		s->len = ft_longnbr(arg, base) + 1;
+		s->prec++;
 	}
 	fill_sp_nz_neg(s);
-	if (s->prec != 0 || s->null != 'y')
-		ft_putnbr(10, arg, "0123456789", s);
+	ft_putnbr(base, arg, str_base, s);
+}
+
+static void		jotdown_d(t_format *s)
+{
+	long		arg;
+
+	arg = va_arg(s->args, int);
+	fill(10, arg, "0123456789", s);
 }
 
 static void		jotdown_x(t_format *s)
@@ -167,12 +172,7 @@ static void		jotdown_x(t_format *s)
 	unsigned long	arg;
 
 	arg = va_arg(s->args, unsigned int);
-	s->len = ft_longnbr(arg, 16);
-	if (arg == 0)
-		s->null = 'y';
-	fill_sp_nz_neg(s);
-	if (s->prec != 0 || s->null != 'y')
-		ft_putnbr(16, arg, "0123456789abcdef", s);
+	fill(16, arg, "0123456789abcdef", s);
 }
 
 static void		jotdown_s(t_format *s)
