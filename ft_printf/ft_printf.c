@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/29 10:22:45 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/29 12:00:43 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static void		zeros(int c, t_format *s)
 		ft_putchar('0', s);
 }
 
-static void		fill(t_format *s)
+static void		fill_sp_clz_neg(t_format *s)
 {
 	if (s->prec == 0 && s->null == 'y')
 		spaces(s->mfw, s);
@@ -174,7 +174,7 @@ static void		jotdown_d(t_format *s)
 		if (s->prec)
 			s->prec++;
 	}
-	fill(s);
+	fill_sp_clz_neg(s);
 	if (s->prec != 0 || s->null != 'y')
 		ft_putnbr(10, arg, "0123456789", s);
 }
@@ -187,7 +187,7 @@ static void		jotdown_x(t_format *s)
 	if (arg == 0)
 		s->null = 'y';
 	s->len = ft_longnbr(arg, 16);
-	fill(s);
+	fill_sp_clz_neg(s);
 	if (s->prec != 0 || s->null != 'y')
 		ft_putnbr(16, arg, "0123456789abcdef", s);
 }
