@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/29 12:45:03 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/29 12:57:04 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,6 @@ static void		fill_sp_nz_neg(t_format *s)
 		zeros(s->prec - s->len, s);
 }
 
-static void		print_s(char *arg, t_format *s)
-{
-	if (s->prec >= s->len || s->prec < 0)
-		spaces(s->mfw - s->len, s);
-	else
-		spaces(s->mfw - s->prec, s);
-	ft_putstr(arg, s);
-}
-
 static void		idt_flags(t_format *s)
 {
 	int		c;
@@ -176,9 +167,9 @@ static void		jotdown_x(t_format *s)
 	unsigned long	arg;
 
 	arg = va_arg(s->args, unsigned int);
+	s->len = ft_longnbr(arg, 16);
 	if (arg == 0)
 		s->null = 'y';
-	s->len = ft_longnbr(arg, 16);
 	fill_sp_nz_neg(s);
 	if (s->prec != 0 || s->null != 'y')
 		ft_putnbr(16, arg, "0123456789abcdef", s);
@@ -192,7 +183,11 @@ static void		jotdown_s(t_format *s)
 	if (arg == NULL)
 		arg = "(null)";
 	s->len = ft_strlen(arg);
-	print_s(arg, s);
+	if (s->prec >= s->len || s->prec < 0)
+		spaces(s->mfw - s->len, s);
+	else
+		spaces(s->mfw - s->prec, s);
+	ft_putstr(arg, s);
 }
 
 static void		init_flags(t_format *s)
