@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/29 10:11:36 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/29 10:22:45 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,6 @@ static void		ft_putnbr(int base, long nb, char *str_base, t_format *s)
 	ft_putchar(str_base[nb % base], s);
 }
 
-/*
-static void		ft_putnbr(long nb, t_format *s)
-{
-	if (nb > 9)
-		ft_putnbr(nb / 10, s);
-	ft_putchar(nb % 10 + '0', s);
-}
-*/
-
 static void		ft_putstr(char *str, t_format *s)
 {
 	int		c;
@@ -75,14 +66,6 @@ static void		ft_putstr(char *str, t_format *s)
 	while (*str && c-- > 0)
 		ft_putchar(*(str++), s);
 }
-
-
-/*static void		ft_puthex(char *str, t_format *s)
-{
-	while (*str)
-		ft_putchar(*(str++), s);
-}
-*/
 
 static int		ft_isdigit(int c)
 {
@@ -175,29 +158,6 @@ static int		ft_longnbr(long nbr, int base)
 	return (c);
 }
 
-/*
-static char		*dec_to_hexa(unsigned long arg, t_format *s)
-{
-	static char		result[20];
-	int				i;
-	unsigned long	temp;
-	char			*hexalower;
-
-	hexalower = "0123456789abcdef";
-	i = s->len - 1;
-	if (arg == 0)
-		return ("0\0");
-	while (arg)
-	{
-		temp = arg % 16;
-		result[i--] = hexalower[temp];
-		arg = arg / 16;
-	}
-	result[s->len] = '\0';
-	return (result);
-}
-*/
-
 static void		jotdown_d(t_format *s)
 {
 	long		arg;
@@ -216,25 +176,19 @@ static void		jotdown_d(t_format *s)
 	}
 	fill(s);
 	if (s->prec != 0 || s->null != 'y')
-//		ft_putnbr(10, arg, s);
 		ft_putnbr(10, arg, "0123456789", s);
 }
 
 static void		jotdown_x(t_format *s)
 {
-//	char			*arg;
-	unsigned long			arg;
-	unsigned long	aux;
+	unsigned long	arg;
 
-	aux = va_arg(s->args, unsigned int);
-	arg = aux;
-	if (aux == 0)
+	arg = va_arg(s->args, unsigned int);
+	if (arg == 0)
 		s->null = 'y';
-	s->len = ft_longnbr(aux, 16);
-//	arg = dec_to_hexa(aux, s);
+	s->len = ft_longnbr(arg, 16);
 	fill(s);
 	if (s->prec != 0 || s->null != 'y')
-//		ft_puthex(arg, s);
 		ft_putnbr(16, arg, "0123456789abcdef", s);
 }
 
