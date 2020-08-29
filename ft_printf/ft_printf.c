@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/29 12:57:04 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/29 13:24:00 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,10 +183,11 @@ static void		jotdown_s(t_format *s)
 	if (arg == NULL)
 		arg = "(null)";
 	s->len = ft_strlen(arg);
-	if (s->prec >= s->len || s->prec < 0)
-		spaces(s->mfw - s->len, s);
-	else
+	if (s->len > s->prec && s->prec >= 0)
+//	if (s->len > s->prec)// && s->prec >= 0)
 		spaces(s->mfw - s->prec, s);
+	else
+		spaces(s->mfw - s->len, s);
 	ft_putstr(arg, s);
 }
 
