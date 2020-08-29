@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/29 12:00:43 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/29 12:40:24 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,22 +98,14 @@ static void		fill_sp_clz_neg(t_format *s)
 {
 	if (s->prec == 0 && s->null == 'y')
 		spaces(s->mfw, s);
-	else if (s->prec >= 0)
-	{
-		if (s->prec <= s->len)
-			spaces(s->mfw - s->len, s);
-		else
-			spaces(s->mfw - s->prec, s);
-		if (s->neg == 'y')
-			ft_putchar('-', s);
-		zeros(s->prec - s->len, s);
-	}
-	else
-	{
+	else if (s->prec <= s->len)
 		spaces(s->mfw - s->len, s);
-		if (s->neg == 'y')
-			ft_putchar('-', s);
-	}
+	else
+		spaces(s->mfw - s->prec, s);
+	if (s->neg == 'y')
+		ft_putchar('-', s);
+	if (s->prec != 0)
+		zeros(s->prec - s->len, s);
 }
 
 static void		print_s(char *arg, t_format *s)
