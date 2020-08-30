@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/29 14:48:50 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/08/30 22:16:32 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,9 +98,7 @@ static void		zeros(int c, t_format *s)
 
 static void		fill_sp_nz_neg(t_format *s)
 {
-	if (s->prec == 0 && s->null == 'y')
-		spaces(s->mfw, s);
-	else if (s->prec <= s->len)
+	if (s->len > s->prec && (s->prec != 0 || s->null != 'y'))
 		spaces(s->mfw - s->len, s);
 	else
 		spaces(s->mfw - s->prec, s);
