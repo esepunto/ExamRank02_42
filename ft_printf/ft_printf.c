@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/08/30 22:16:32 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/01 16:31:24 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ typedef struct	s_format
 	char	flagstr[1];
 }				t_format;
 
-static void		ft_putchar(int c, t_format *s)
+static void		ft_printchar(int c, t_format *s)
 {
 	write(1, &c, 1);
 	s->how_many++;
@@ -55,7 +55,7 @@ static void		ft_putnbr(int base, long nb, char *str_base, t_format *s)
 		return ;
 	if (nb >= base)
 		ft_putnbr(base, nb / base, str_base, s);
-	ft_putchar(str_base[nb % base], s);
+	ft_printchar(str_base[nb % base], s);
 }
 
 static void		ft_putstr(char *str, t_format *s)
@@ -66,7 +66,7 @@ static void		ft_putstr(char *str, t_format *s)
 	if (c < 0)
 		c = s->len;
 	while (*str && c-- > 0)
-		ft_putchar(*(str++), s);
+		ft_printchar(*(str++), s);
 }
 
 static int		ft_isdigit(int c)
@@ -87,23 +87,23 @@ static size_t	ft_strlen(const char *str)
 static void		spaces(int c, t_format *s)
 {
 	while (c-- > 0)
-		ft_putchar(' ', s);
+		ft_printchar(' ', s);
 }
 
 static void		zeros(int c, t_format *s)
 {
 	while (c-- > 0)
-		ft_putchar('0', s);
+		ft_printchar('0', s);
 }
 
 static void		fill_sp_nz_neg(t_format *s)
 {
-	if (s->len > s->prec && (s->prec != 0 || s->null != 'y'))
+	if (s->prec <= s->len && (s->null != 'y' || s->prec != 0))
 		spaces(s->mfw - s->len, s);
 	else
 		spaces(s->mfw - s->prec, s);
 	if (s->neg == 'y')
-		ft_putchar('-', s);
+		ft_printchar('-', s);
 	if (s->prec != 0)
 		zeros(s->prec - s->len, s);
 }
@@ -262,7 +262,7 @@ int				ft_printf(const char *str, ...)
 		if (*str == '%')
 			is_percent(&str, &s);
 		else
-			ft_putchar(*str, &s);
+			ft_printchar(*str, &s);
 		str++;
 	}
 	va_end(s.args);
