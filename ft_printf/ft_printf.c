@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 18:16:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/01 16:31:24 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/01 17:23:44 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,13 @@ static void		ft_printchar(int c, t_format *s)
 	s->how_many++;
 }
 
-static void		ft_putnbr(int base, long nb, char *str_base, t_format *s)
+static void		ft_putnbr(int base, long arg, char *str_base, t_format *s)
 {
 	if (s->prec == 0 && s->null == 'y')
 		return ;
-	if (nb >= base)
-		ft_putnbr(base, nb / base, str_base, s);
-	ft_printchar(str_base[nb % base], s);
+	if (arg >= base)
+		ft_putnbr(base, arg / base, str_base, s);
+	ft_printchar(str_base[arg % base], s);
 }
 
 static void		ft_putstr(char *str, t_format *s)
