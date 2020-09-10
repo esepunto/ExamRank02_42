@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/10 16:30:54 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/10 16:56:39 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		dest[i++] = *s2++;
 	dest[i] = '\0';
 	return (dest);
-
 }
 
 char	*ft_strchr(const char *str, int char2find)
