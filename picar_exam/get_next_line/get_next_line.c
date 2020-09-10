@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/02 16:24:40 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/10 16:30:54 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,13 +115,10 @@ int		get_next_line(char **line)
 	{
 		buffer[bytes_buf] = '\0';
 		if (!wr_nd_wipe)
-			wr_nd_wipe = ft_strdup(buffer);
-		else
-		{
-			aux = ft_strjoin(wr_nd_wipe, buffer);
-			free(wr_nd_wipe);
-			wr_nd_wipe = aux;
-		}
+			wr_nd_wipe = ft_strdup("");
+		aux = ft_strjoin(wr_nd_wipe, buffer);
+		free(wr_nd_wipe);
+		wr_nd_wipe = aux;
 		if (ft_strchr(wr_nd_wipe, '\n'))
 			break;
 	}
