@@ -6,12 +6,11 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 09:27:38 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/10 19:23:44 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/10 19:28:21 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdlib.h>
 
 static char	*ft_strjoin_no_malloc(char *s1, char *s2)
 {
