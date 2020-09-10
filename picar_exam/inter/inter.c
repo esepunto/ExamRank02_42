@@ -6,13 +6,13 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 10:17:04 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/02 12:44:01 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/10 19:15:16 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-static char	ft_strsrch(char *str, int chr2find)
+static char	ft_find(char *str, int chr2find)
 {
 	while (*str)
 	{
@@ -32,7 +32,7 @@ int			main(int argc, char **argv)
 	{
 		while (argv[1][i])
 		{
-			if (ft_strsrch(argv[2], argv[1][i]) != 0)
+			if (ft_find(argv[2], argv[1][i]) != 0)
 			{
 				j = i - 1;
 				while (j >= -1)

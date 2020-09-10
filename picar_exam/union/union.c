@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 09:27:38 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/02 12:53:03 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/10 19:23:44 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int			main(int argc, char **argv)
 			{
 				if (str_sum[j] == str_sum[i])
 				   break;
-				else if (i == 0 || j == -1)
+				else if (j == -1)
 					write(1, &str_sum[i], 1);	
 				j--;
 			}
@@ -53,5 +53,4 @@ int			main(int argc, char **argv)
 		}
 	}
 	write(1, "\n", 1);
-//	system("leaks union");
 }	
