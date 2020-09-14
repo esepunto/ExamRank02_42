@@ -6,7 +6,7 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:26:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/02 18:28:04 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/14 14:39:55 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,6 @@ static void		idt_flags(t_format *s)
 		if (ft_isdigit(flag[c]))
 			while (ft_isdigit(flag[c]))
 				s->prec = (s->prec * 10) + (flag[c++] - 48);
-
 	}
 }
 
