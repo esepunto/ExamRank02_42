@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/15 23:33:02 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/15 23:52:00 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_b4chr(char const *s, char chr)
 	int		i;
 
 	i = 0;
-	if (!(b4chr = malloc(sizeof(char) * (ft_strlen(s) + 1))))
+	if (!(b4chr = malloc(ft_strlen(s) + 1)))
 		return (NULL);
 	while (*s != chr)
 		b4chr[i++] = *s++;
@@ -67,7 +67,7 @@ int		ft_chop(char **wr_nd_wipe, char **line)
 {
 	char	*aftr_eol;
 
-	if (*wr_nd_wipe && ft_strchr(*wr_nd_wipe, '\n') > 0)
+	if (ft_strchr(*wr_nd_wipe, '\n'))
 	{
 		*line = ft_b4chr(*wr_nd_wipe, '\n');
 		aftr_eol = ft_strchr(*wr_nd_wipe, '\n') + 1;
@@ -91,8 +91,8 @@ int		get_next_line(char **line)
 	static char	*wr_nd_wipe;
 	char		*aux;
 
-	if (!(buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1))) || !line
-			|| BUFFER_SIZE < 1 || read(0, buffer, 0) < 0)
+	if (!(buffer = malloc(BUFFER_SIZE + 1))
+			|| !line || BUFFER_SIZE < 1 || read(0, buffer, 0) < 0)
 		return (-1);
 	while ((bytes_buf = read(0, buffer, BUFFER_SIZE)) > 0)
 	{
