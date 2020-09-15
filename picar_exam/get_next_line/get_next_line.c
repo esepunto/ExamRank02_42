@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/15 18:53:31 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/15 22:01:37 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	if (!(join = malloc(ft_strlen(s1) + ft_strlen(s2) + 1)))
-			return (NULL);
+		return (NULL);
 	while (*s1 != '\0')
 		join[i++] = *s1++;
 	while (*s2 != '\0')
@@ -92,7 +92,7 @@ int		get_next_line(char **line)
 	char		*aux;
 
 	if (!(buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1))) || !line
-			|| BUFFER_SIZE < 1 || read(0, buffer, 0 ) < 0)
+			|| BUFFER_SIZE < 1 || read(0, buffer, 0) < 0)
 		return (-1);
 	while ((bytes_buf = read(0, buffer, BUFFER_SIZE)) > 0)
 	{
@@ -106,7 +106,7 @@ int		get_next_line(char **line)
 			wr_nd_wipe = aux;
 		}
 		if (ft_strchr(wr_nd_wipe, '\n'))
-			break;
+			break ;
 	}
 	free(buffer);
 	return (ft_chop(&wr_nd_wipe, line));
