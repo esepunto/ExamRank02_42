@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/15 22:01:37 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/15 23:21:19 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,6 @@ size_t	ft_strlen(const char *str)
 	while (str[c])
 		c++;
 	return (c);
-}
-
-char	*ft_b4chr(char const *s, char chr)
-{
-	char	*dest;
-	int		i;
-
-	i = 0;
-	if (!(dest = malloc(sizeof(char) * (ft_strlen(s) + 1))))
-		return (NULL);
-	while (*s != chr)
-		dest[i++] = *s++;
-	dest[i++] = '\0';
-	return (dest);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -52,15 +38,29 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (join);
 }
 
-char	*ft_strchr(const char *str, int char2find)
+char	*ft_strchr(const char *str, int chr2find)
 {
 	while (*str)
 	{
-		if (*str == char2find)
+		if (*str == chr2find)
 			return ((char*)str);
 		str++;
 	}
 	return (0);
+}
+
+char	*ft_b4chr(char const *s, char chr)
+{
+	char	*b4chr;
+	int		i;
+
+	i = 0;
+	if (!(b4chr = malloc(sizeof(char) * (ft_strlen(s) + 1))))
+		return (NULL);
+	while (*s != chr)
+		b4chr[i++] = *s++;
+	b4chr[i++] = '\0';
+	return (b4chr);
 }
 
 int		ft_chop(char **wr_nd_wipe, char **line)
