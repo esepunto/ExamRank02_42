@@ -6,7 +6,7 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:26:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/14 14:39:55 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/15 08:32:04 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,9 @@ static void		fill(int base, long arg, char *str_base, t_format *s)
 		s->prec++;
 	}
 	fill_sp_nz_neg(s);
-	if (s->prec != 0 || s->null != 'y')
+	if (s->prec == 0 && s->null == 'y')
+		return ;
+	else
 		ft_putnbr(base, arg, str_base, s);
 }
 
@@ -200,13 +202,14 @@ static char		ft_look4conversion(const char *str, t_format *s)
 		j = 0;
 		while (j <= 2)
 		{
-			if (str[i] == FT_PRINTF_VALID_FORMATS[j++])
+			if (str[i] == FT_PRINTF_VALID_FORMATS[j])
 			{
 				s->flagstr[i - 1] = '\0';
 				return (str[i]);
 			}
+			j++;
 		}
-		s->flagstr[i - 1] = str[i];//¿Se podrá quitar?
+		s->flagstr[i - 1] = str[i];
 	}
 	return (str[i]);
 }

@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/10 16:56:39 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/15 08:44:53 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strdup(const char *str)
 		return (NULL);
 	i = 0;
 	while (*str != '\0')
-		twin[i++] = *((char *)str++);
+		twin[i++] = *str++;
 	twin[i] = '\0';
 	return (twin);
 }
@@ -60,8 +60,6 @@ char	*ft_strchr(const char *str, int char2find)
 			return ((char*)str);
 		str++;
 	}
-	if (char2find == '\0')
-		return ((char*)str);
 	return (0);
 }
 
@@ -107,17 +105,20 @@ int		get_next_line(char **line)
 	static char	*wr_nd_wipe;
 	char		*aux;
 
-	if (!(buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1))) || !line
+	if (!(buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1))) || !line
 			|| BUFFER_SIZE < 1 || read(0, buffer, 0 ) < 0)
 		return (-1);
 	while ((bytes_buf = read(0, buffer, BUFFER_SIZE)) > 0)
 	{
 		buffer[bytes_buf] = '\0';
 		if (!wr_nd_wipe)
-			wr_nd_wipe = ft_strdup("");
-		aux = ft_strjoin(wr_nd_wipe, buffer);
-		free(wr_nd_wipe);
-		wr_nd_wipe = aux;
+			wr_nd_wipe = ft_strdup(buffer);
+		else
+		{
+			aux = ft_strjoin(wr_nd_wipe, buffer);
+			free(wr_nd_wipe);
+			wr_nd_wipe = aux;
+		}
 		if (ft_strchr(wr_nd_wipe, '\n'))
 			break;
 	}
