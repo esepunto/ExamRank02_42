@@ -6,7 +6,7 @@
 /*   By: ssacrist </var/mail/ssacrist>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 16:26:14 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/15 08:32:04 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/15 08:56:54 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,11 @@ static void		ft_putstr(char *arg, t_format *s)
 	c = s->prec;
 	if (c < 0)
 		c = s->len;
-	while (*arg && c-- > 0)
-		ft_printchar(*(arg++), s);
+	while (*arg && c > 0)
+	{
+		ft_printchar(*arg++, s);
+		c--;
+	}
 }
 
 static int		ft_isdigit(int c)
