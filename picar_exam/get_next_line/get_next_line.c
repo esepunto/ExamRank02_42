@@ -6,46 +6,55 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/16 18:32:41 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/17 00:42:48 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
-char	*ft_strjoin(char buffer, char *wr_nd_wipe)
+char	*ft_strjoin(char *str, char *buffer)
 {
 	char	*join;
 	int		i;
 
-	i = 1;
-	if (!(join = malloc(3 + sizeof(*))))
-		return (NULL);
-	join[0] = buffer;
-	while (**line != '\0')
-		join[i++] = **line++;
-	join[i] = '\0';
+	i = 0;
+	while (str[i])
+		i++;
+	join = (char *)malloc(i + 2);
+	i = 0;
+	while (str[i] != '\0')
+	{
+		join[i] = str[i];
+		i++;
+	}
+//	printf("i pre  ++: %d, join: %s\n", i, join);
+	join[i++] = buffer[0];
+//	printf("i post ++: %d, join: %s\n", i, join);
+	join[i++] = '\0';
+//	printf("i post 00: %d, join: %s\n", i, join);
+	free(str);
+//	exit (-1);
 	return (join);
 }
 
 int		get_next_line(char **line)
 {
 	int			bytes_buf;
-	char		buffer[1];
-	static char	*wr_nd_wipe;
+	char		*buffer;
 
-	if (!line || read(0, buffer, 0) < 0)
+	if (!(*line = (char *)malloc(1)) || !line || !(buffer = (char *)malloc(2)))
 		return (-1);
-	*line[0] = '\0';
+	(*line)[0] = '\0';
 	while ((bytes_buf = read(0, buffer, 1)) > 0)
 	{
-		if (buffer[0] == '\n')
-		{
-			line = wr_nd_wipe;
-
-			return (1);
-		else if (buffer[0] != '\0')
-			wr_nd_wipe = ft_strjoin(buffer[0], wr_nd_wipe);
+		buffer[1] = '\0';
+		if (buffer[0] == '\n' || buffer[0] == '\0')
+		{	
+			break;
+		}
+		*line = ft_strjoin(*line, buffer);
 	}
 	free(buffer);
-	return (0);
+	return (bytes_buf);
 }
