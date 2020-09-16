@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/17 01:20:35 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/17 01:53:46 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_strjoin(char *line, char *buffer)
 	i = 0;
 	while (line[i])
 		i++;
-	join = malloc(i + 2);
+	if (!(join = malloc(i + 2)))
+		return ("¡Que no tienes memoria, alfeñique!");
 	i = 0;
 	while (line[i] != '\0')
 	{
@@ -29,7 +30,7 @@ char	*ft_strjoin(char *line, char *buffer)
 	}
 	free(line);
 	join[i++] = buffer[0];
-	join[i++] = buffer[1];
+	join[i++] = '\0';
 	return (join);
 }
 
@@ -43,7 +44,6 @@ int		get_next_line(char **line)
 	(*line)[0] = '\0';
 	while ((bytes_buf = read(0, buffer, 1)) > 0)
 	{
-		buffer[1] = '\0';
 		if (buffer[0] == '\0' || buffer[0] == '\n')
 			break;
 		*line = ft_strjoin(*line, buffer);
