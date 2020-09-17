@@ -24,15 +24,15 @@ static char	*ft_strjoin_no_malloc(char *s1, char *s2)
 	while (*s2 != '\0')
 		str_sum[i++] = *s2++;
 	str_sum[i] = '\0';
-	return(str_sum);
+	return (str_sum);
 }
 
 int			main(int argc, char **argv)
 {
-	int 	i;
-	int 	j;
+	int		i;
+	int		j;
 	char	*str_sum;
- 
+
 	i = 0;
 	if (argc == 3)
 	{
@@ -43,13 +43,13 @@ int			main(int argc, char **argv)
 			while (j >= -1)
 			{
 				if (str_sum[j] == str_sum[i])
-				   break;
+					break ;
 				else if (j == -1)
-					write(1, &str_sum[i], 1);	
+					write(1, &str_sum[i], 1);
 				j--;
 			}
 			i++;
 		}
 	}
 	write(1, "\n", 1);
-}	
+}
