@@ -25,17 +25,17 @@ int		get_next_line(char **line)
 	while ((bytes_buf = read(0, buffer, 1)) > 0)
 	{
 		if (buffer[0] == '\0' || buffer[0] == '\n')
-			break;
+			break ;
 		i = 0;
 		while ((*line)[i])
 			i++;
 		if (!(join = malloc(i + 2)))
 			return (-1);
 		i = 0;
-		while ((*line)[i] != '\0' && i++)// && i++ = love-hate
+		while ((*line)[i] != '\0')
 		{
 			join[i] = (*line)[i];
-//			i++; I have a love-hate relationship with norminette...
+			i++;
 		}
 		join[i++] = buffer[0];
 		join[i++] = '\0';
