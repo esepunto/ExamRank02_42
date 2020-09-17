@@ -6,7 +6,7 @@
 /*   By: ssacrist <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/02 12:53:42 by ssacrist          #+#    #+#             */
-/*   Updated: 2020/09/17 02:35:44 by ssacrist         ###   ########.fr       */
+/*   Updated: 2020/09/17 02:39:42 by ssacrist         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,21 @@ int		get_next_line(char **line)
 	{
 		if (buffer[0] == '\0' || buffer[0] == '\n')
 			break;
-			i = 0;
-			while ((*line)[i])
-				i++;
-			if (!(join = malloc(i + 2)))
-				return (-1);
-			i = 0;
-			while ((*line)[i] != '\0')
-			{
-				join[i] = (*line)[i];
-				i++;
-			}
-			join[i++] = buffer[0];
-			join[i++] = '\0';
-			free(*line);
-			*line = join;
+		i = 0;
+		while ((*line)[i])
+			i++;
+		if (!(join = malloc(i + 2)))
+			return (-1);
+		i = 0;
+		while ((*line)[i] != '\0')
+		{
+			join[i] = (*line)[i];
+			i++;
+		}
+		join[i++] = buffer[0];
+		join[i++] = '\0';
+		free(*line);
+		*line = join;
 	}
 	return (bytes_buf);
 }
