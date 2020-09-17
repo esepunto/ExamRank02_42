@@ -32,10 +32,10 @@ int		get_next_line(char **line)
 		if (!(join = malloc(i + 2)))
 			return (-1);
 		i = 0;
-		while ((*line)[i] != '\0')
+		while ((*line)[i] != '\0' && i++)// && i++ = love-hate
 		{
 			join[i] = (*line)[i];
-			i++;
+//			i++; I have a love-hate relationship with norminette...
 		}
 		join[i++] = buffer[0];
 		join[i++] = '\0';
