@@ -1,4 +1,4 @@
-My approach to Exam Rank 02 (Ecole 42). 
+My approach to Exam Rank 02 (42 Madrid). 
 
 To be tested during the exam.
 
