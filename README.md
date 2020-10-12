@@ -1,4 +1,5 @@
-My approach to Exam Rank 02 (42 Madrid). 
+# Exam Rank 02 (42 cursus)
+## My approach to Exam Rank 02. 
 
 To be tested during the exam.
 
